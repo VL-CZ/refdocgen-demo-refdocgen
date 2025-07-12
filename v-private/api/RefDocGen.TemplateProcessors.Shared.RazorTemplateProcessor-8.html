@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RefDocGen documentation</title>
+
+    <script>
+
+        // use IIFE in order to avoid polluting global context with functions & variables
+        // https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+        (function() {
+            const isLocalFile = location.protocol === "file:";
+            const defaultTheme = "dark";
+            const defaultLang = "csharp-lang";
+
+            if(isLocalFile){
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let redirect = false;
+
+                // set 'theme' URL param if not found
+                if(!urlParams.has("theme")){
+                    urlParams.set("theme", defaultTheme);
+                    redirect = true;
+                }
+
+                // set 'lang' URL param if not found
+                if(!urlParams.has("lang")){
+                    urlParams.set("lang", defaultLang);
+                    redirect = true;
+                }
+
+                // redirect, if some of the URL parameters are missing
+                if(redirect){
+                    const newUrl = new URL(window.location.href);
+                    newUrl.search = urlParams.toString();
+
+                    window.location.href = newUrl;
+                }
+                else {
+                    document.documentElement.setAttribute("data-bs-theme", urlParams.get("theme")); // set the 'data-bs-theme' attribute
+                    document.documentElement.setAttribute("data-language", urlParams.get("lang")); // set the 'data-language' attribute
+                }
+            }
+            else { // no local file -> use localStorage
+                if (!localStorage.getItem("refdocgen-theme")) {
+                    localStorage.setItem("refdocgen-theme", defaultTheme);
+                }
+
+                if (!localStorage.getItem("refdocgen-language")) {
+                    localStorage.setItem("refdocgen-language", defaultLang);
+                }
+
+                document.documentElement.setAttribute("data-bs-theme", localStorage.getItem("refdocgen-theme")); // set the 'data-bs-theme' attribute
+                document.documentElement.setAttribute("data-language", localStorage.getItem("refdocgen-language")); // set the 'data-language' attribute
+            }
+        })();
+    </script>
+
+    
+    <link href="../Static/styles.css" rel="stylesheet" /><style>html[data-language="csharp-lang"] [data-language="csharp-lang"] { display: inline !important; }
+</style></head>
+
+<body><nav class="navbar navbar-expand-lg sticky-top menu-bg"><div class="container"><a class="navbar-brand" href="../index.html">RefDocGen</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup"><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../api/index.html">API</a></li></ul>
+            <ul class="navbar-nav ms-auto"><li class="nav-item d-flex align-items-center"><form class="me-2 mb-2 mb-lg-0"><select class="form-select" id="language-selector" aria-label="language"><option class="lang-option" value="csharp-lang">C#</option></select></form></li>
+
+                
+                <li class="nav-item d-flex align-items-center"><form role="search" class="me-2"><input class="form-control" autocomplete="off" type="search" placeholder="Search" aria-label="Search" id="menu-search-bar" data-url-target="../search.html" readonly /></form></li>
+
+                
+                <li class="nav-item" id="theme-switcher"><button class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"></path></svg></button></li></ul></div></div></nav>
+
+    <div class="container my-4" data-id="page-body"><div data-id="declared-type-data"><div class="d-flex justify-content-between align-items-center"><h1 class="display-4 text-break" data-id="type-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal class</span>
+<span class="refdocgen-text-primary">RazorTemplateProcessor</span><span>&lt;</span><span class="refdocgen-text-secondary">TObjectTypePageTemplate</span><span>, </span><span class="refdocgen-text-secondary">TDelegatePageTemplate</span><span>, </span><span class="refdocgen-text-secondary">TEnumPageTemplate</span><span>, </span><span class="refdocgen-text-secondary">TNamespacePageTemplate</span><span>, </span><span class="refdocgen-text-secondary">TAssemblyPageTemplate</span><span>, </span><span class="refdocgen-text-secondary">TApiHomePageTemplate</span><span>, </span><span class="refdocgen-text-secondary">TStaticPageTemplate</span><span>, </span><span class="refdocgen-text-secondary">TSearchPageTemplate</span><span>&gt;</span></span></samp></h1>
+
+    <button class="btn btn-sm" id="toggleAllBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path>
+        <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button>
+
+<script>
+    window.addEventListener('load', function(){
+        const toggleBtn = document.getElementById('toggleAllBtn');
+        const namespaces = Array.from(document.getElementsByClassName('multi-collapse'));
+
+        toggleBtn.addEventListener('click', () => {
+          const allShown = namespaces.every(ns => ns.classList.contains('show'));
+
+          namespaces.forEach(el => {
+            let instance = bootstrap.Collapse.getInstance(el);
+            if (!instance) {
+                // Ensure toggle: false to prevent auto-toggling on creation
+                instance = new bootstrap.Collapse(el, { toggle: false });
+            }
+
+            if (allShown) {
+              instance.hide(); // Collapse if all were shown
+            } else {
+              instance.show(); // Otherwise expand all
+            }
+          });
+        });
+    });
+</script></div>
+
+                        <span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TObjectTypePageTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TDelegatePageTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TEnumPageTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TNamespacePageTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TAssemblyPageTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TApiHomePageTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TStaticPageTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TSearchPageTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span>
+
+                        <h6><samp data-id="type-assembly"><a href="RefDocGen-DLL.html" class="refdocgen-link-secondary"><span class="refdocgen-text-tertiary">assembly</span>
+            <span class="refdocgen-text-secondary">RefDocGen</span></a></samp></h6>
+
+                        <h6><samp data-id="type-namespace"><a href="RefDocGen.TemplateProcessors.Shared.html" class="refdocgen-link-secondary text-break"><span class="refdocgen-text-tertiary">namespace</span>
+            <span class="refdocgen-text-secondary">RefDocGen.TemplateProcessors.Shared</span></a></samp></h6>
+
+                        <div data-id="base-type"><i>Base type:&nbsp;</i>
+        <samp class="refdocgen-text-secondary text-break"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.object" class="refdocgen-link-secondary">object</a></span></span></samp></div>
+
+                        <div data-id="implemented-interfaces" class="text-break"><i>Implements:&nbsp;</i>
+        <samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.ITemplateProcessor.html" class="refdocgen-link-secondary">ITemplateProcessor</a></span></span></samp></div>
+
+                        
+
+                        <hr>
+
+                        
+                        <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Class responsible for processing the Razor templates and populating them with the type data.
+            </div></div><hr><div class="mt-3"><div class="lead">Type parameters</div>
+        <div class="mx-3" data-id="type-parameters-section"><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TObjectTypePageTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the object type page.</div></div></div><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TDelegatePageTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the delegate page.</div></div></div><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TEnumPageTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the enum page.</div></div></div><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TNamespacePageTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the namespace page.</div></div></div><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TAssemblyPageTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the assembly page.</div></div></div><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TApiHomePageTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the API home page.</div></div></div><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TStaticPageTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the static page.</div></div></div><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TSearchPageTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the search page.</div></div></div></div></div>
+
+                        
+
+                        
+
+                        
+                        
+
+                        
+
+                        <hr></div><h2 class="display-5 mt-2">Constructors</h2>
+<div class="row" data-id="constructors-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id=".ctor(Microsoft.AspNetCore.Components.Web.HtmlRenderer,RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentTransformer,System.Collections.Generic.IEnumerable(RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration),System.String,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal</span>
+<span class="refdocgen-text-primary">RazorTemplateProcessor&lt;TObjectTypePageTemplate, TDelegatePageTemplate, TEnumPageTemplate, TNamespacePageTemplate, TAssemblyPageTemplate, TApiHomePageTemplate, TStaticPageTemplate, TSearchPageTemplate&gt;</span><span>(</span><wbr><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.Web.HtmlRenderer</span><span>&#xA0;htmlRenderer</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentTransformer.html" class="refdocgen-link-secondary">IDocCommentTransformer</a></span><span>&#xA0;docCommentTransformer</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration.html" class="refdocgen-link-secondary">ILanguageConfiguration</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;availableLanguages</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;staticPagesDirectory</span><span> = </span>
+    <span class="refdocgen-text-green">null</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;docVersion</span><span> = </span>
+    <span class="refdocgen-text-green">null</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#.ctor(Microsoft.AspNetCore.Components.Web.HtmlRenderer,RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentTransformer,System.Collections.Generic.IEnumerable(RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration),System.String,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#ctor-0-collapse" aria-expanded="false" aria-controls="ctor-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="ctor-0-collapse"><div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Initialize a new instance of
+            <a class="refdocgen-see-cref" href="./RefDocGen.TemplateProcessors.Shared.RazorTemplateProcessor-8.html">RazorTemplateProcessor&lt;TObjectTypePageTemplate, TDelegatePageTemplate, TEnumPageTemplate, TNamespacePageTemplate, TAssemblyPageTemplate, TApiHomePageTemplate, TStaticPageTemplate, TSearchPageTemplate&gt;</a> class.
+            </div></div>
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.Web.HtmlRenderer</span><span>&#xA0;htmlRenderer</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Renderer of the Razor components.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentTransformer.html" class="refdocgen-link-secondary">IDocCommentTransformer</a></span><span>&#xA0;docCommentTransformer</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Transformer of the XML doc comments into HTML.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration.html" class="refdocgen-link-secondary">ILanguageConfiguration</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;availableLanguages</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>
+            <div>
+            Configuration of languages available in the documentation.
+            </div>
+        </div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;staticPagesDirectory</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Path to the directory containing the static pages created by user. <code class="refdocgen-inline-code">null</code> indicates that the directory is not specified.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;docVersion</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Version of the documentation (e.g. 'v1.0'). Pass <code class="refdocgen-inline-code">null</code> if no specific version should be generated.</div></div></div></div></div>
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div><h2 class="display-5 mt-2">Fields</h2>
+<div class="row" data-id="fields-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="availableLanguages" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration.html" class="refdocgen-link-secondary">ILanguageConfiguration</a></span><span class="text-body-secondary">&gt;</span>
+
+<span class="refdocgen-text-primary">availableLanguages</span>
+
+</span>
+
+                            <a class="anchor-link" href="#availableLanguages">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-0-collapse" aria-expanded="false" aria-controls="field-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-0-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Configuration of languages available in the documentation.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="defaultIndexPage" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">defaultIndexPage</span>
+
+</span>
+
+                            <a class="anchor-link" href="#defaultIndexPage">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-1-collapse" aria-expanded="false" aria-controls="field-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-1-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Path to the default index page, redirecting to API page.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="docCommentTransformer" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentTransformer.html" class="refdocgen-link-secondary">IDocCommentTransformer</a></span>
+
+<span class="refdocgen-text-primary">docCommentTransformer</span>
+
+</span>
+
+                            <a class="anchor-link" href="#docCommentTransformer">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-2-collapse" aria-expanded="false" aria-controls="field-2-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-2-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transformer of the XML doc comments into HTML.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="docVersion" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">docVersion</span>
+
+</span>
+
+                            <a class="anchor-link" href="#docVersion">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-3-collapse" aria-expanded="false" aria-controls="field-3-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-3-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Current version of the documentation being generated. <code class="refdocgen-see-langword">null</code> if the version is not specified.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="htmlRenderer" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.Web.HtmlRenderer</span>
+
+<span class="refdocgen-text-primary">htmlRenderer</span>
+
+</span>
+
+                            <a class="anchor-link" href="#htmlRenderer">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-4-collapse" aria-expanded="false" aria-controls="field-4-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-4-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Rendered of the Razor components.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="indexPageId" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">indexPageId</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;index&quot;</span></span>
+
+                            <a class="anchor-link" href="#indexPageId">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-5-collapse" aria-expanded="false" aria-controls="field-5-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-5-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Identifier of the <code class="refdocgen-inline-code">index</code> page.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="isUserDefinedIndexPage" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.boolean" class="refdocgen-link-secondary">bool</a></span>
+
+<span class="refdocgen-text-primary">isUserDefinedIndexPage</span>
+
+</span>
+
+                            <a class="anchor-link" href="#isUserDefinedIndexPage">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-6-collapse" aria-expanded="false" aria-controls="field-6-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-6-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Indicates whether there's an 'index' page defined by the user.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="languageTMs" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.TemplateModels.Language.LanguageTM.html" class="refdocgen-link-secondary">LanguageTM[]</a></span>
+
+<span class="refdocgen-text-primary">languageTMs</span>
+
+</span>
+
+                            <a class="anchor-link" href="#languageTMs">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-7-collapse" aria-expanded="false" aria-controls="field-7-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-7-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Template models of languages available in the documentation.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="logger" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary">Microsoft.Extensions.Logging.ILogger</span>
+
+<span class="refdocgen-text-primary">logger</span>
+
+</span>
+
+                            <a class="anchor-link" href="#logger">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-8-collapse" aria-expanded="false" aria-controls="field-8-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-8-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            A logger instance.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="outputDirectory" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">outputDirectory</span>
+
+</span>
+
+                            <a class="anchor-link" href="#outputDirectory">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-9-collapse" aria-expanded="false" aria-controls="field-9-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-9-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The directory, where the generated output will be stored.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="pagesGenerated" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1" class="refdocgen-link-secondary">HashSet</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span class="text-body-secondary">&gt;</span>
+
+<span class="refdocgen-text-primary">pagesGenerated</span>
+
+</span>
+
+                            <a class="anchor-link" href="#pagesGenerated">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-10-collapse" aria-expanded="false" aria-controls="field-10-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-10-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Set of paths of all generated pages in the current doc version, relative to <a class="refdocgen-see-cref" href="./RefDocGen.TemplateProcessors.Shared.RazorTemplateProcessor-8.html#outputDirectory">RazorTemplateProcessor&lt;TObjectTypePageTemplate, TDelegatePageTemplate, TEnumPageTemplate, TNamespacePageTemplate, TAssemblyPageTemplate, TApiHomePageTemplate, TStaticPageTemplate, TSearchPageTemplate&gt;.outputDirectory</a>.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="projectName" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">projectName</span>
+
+</span>
+
+                            <a class="anchor-link" href="#projectName">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-11-collapse" aria-expanded="false" aria-controls="field-11-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-11-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Name of the assembly/project/solution to be documented (without file extension).
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="staticPagesDirectory" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">staticPagesDirectory</span>
+
+</span>
+
+                            <a class="anchor-link" href="#staticPagesDirectory">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-12-collapse" aria-expanded="false" aria-controls="field-12-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-12-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Path to the directory containing the static pages created by user. <code class="refdocgen-inline-code">null</code>, if the directory is not specified.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="staticTemplateFilesDirectory" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">staticTemplateFilesDirectory</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;Static&quot;</span></span>
+
+                            <a class="anchor-link" href="#staticTemplateFilesDirectory">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-13-collapse" aria-expanded="false" aria-controls="field-13-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-13-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Path to the directory containing static files (typically css and js related to templates), relative to <a class="refdocgen-see-cref" href="./RefDocGen.TemplateProcessors.Shared.RazorTemplateProcessor-8.html#templatesDirectory">RazorTemplateProcessor&lt;TObjectTypePageTemplate, TDelegatePageTemplate, TEnumPageTemplate, TNamespacePageTemplate, TAssemblyPageTemplate, TApiHomePageTemplate, TStaticPageTemplate, TSearchPageTemplate&gt;.templatesDirectory</a>.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="templateProcessorsNsPrefix" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">templateProcessorsNsPrefix</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;RefDocGen.TemplateProcessors.&quot;</span></span>
+
+                            <a class="anchor-link" href="#templateProcessorsNsPrefix">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-14-collapse" aria-expanded="false" aria-controls="field-14-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-14-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Namespace prefix of any template generator.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="templatesDirectory" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">templatesDirectory</span>
+
+</span>
+
+                            <a class="anchor-link" href="#templatesDirectory">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-15-collapse" aria-expanded="false" aria-controls="field-15-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-15-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Path to the directory containing the Razor templates, relative to <code class="refdocgen-inline-code">TemplateProcessors</code> folder.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="topMenuData" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.TemplateModels.Menu.TopMenuDataTM.html" class="refdocgen-link-secondary">TopMenuDataTM</a></span>
+
+<span class="refdocgen-text-primary">topMenuData</span>
+
+</span>
+
+                            <a class="anchor-link" href="#topMenuData">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-16-collapse" aria-expanded="false" aria-controls="field-16-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-16-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            An object representing the links and folders contained in the top menu.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="versionManager" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocVersioning.DocVersionManager.html" class="refdocgen-link-secondary">DocVersionManager</a></span>
+
+<span class="refdocgen-text-primary">versionManager</span>
+
+</span>
+
+                            <a class="anchor-link" href="#versionManager">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-17-collapse" aria-expanded="false" aria-controls="field-17-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-17-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Manager of the documentation version. <code class="refdocgen-inline-code">null</code> if the generated documentation isn't versioned.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div><h2 class="display-5 mt-2">Properties</h2>
+<div class="row" data-id="properties-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="OutputApiDirectory" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">OutputApiDirectory</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#OutputApiDirectory">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-0-collapse" aria-expanded="false" aria-controls="property-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-0-collapse">
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The directory, where the generated output API pages will be stored.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div><h2 class="display-5 mt-2">Methods</h2>
+<div class="row" data-id="methods-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="CopyStaticPages" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">CopyStaticPages</span><span>(</span><wbr><span>)</span></span>
+
+                            <a class="anchor-link" href="#CopyStaticPages">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-0-collapse" aria-expanded="false" aria-controls="method-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-0-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Copies and processes the static pages created by user and adds them into the documentation.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="CopyStaticTemplateFilesDirectory" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">CopyStaticTemplateFilesDirectory</span><span>(</span><wbr><span>)</span></span>
+
+                            <a class="anchor-link" href="#CopyStaticTemplateFilesDirectory">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-1-collapse" aria-expanded="false" aria-controls="method-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-1-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Copies the directory containing static template files (css, js, etc.) to the output directory.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="CreateVersionedDocIndexPage" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">CreateVersionedDocIndexPage</span><span>(</span><wbr><span>)</span></span>
+
+                            <a class="anchor-link" href="#CreateVersionedDocIndexPage">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-2-collapse" aria-expanded="false" aria-controls="method-2-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-2-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Creates an 'index' page of a versioned documentation, which redirects to the most recent version.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="GenerateApiHomepage(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.AssemblyData))" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">GenerateApiHomepage</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.AssemblyData.html" class="refdocgen-link-secondary">AssemblyData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;assemblies</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#GenerateApiHomepage(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.AssemblyData))">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-3-collapse" aria-expanded="false" aria-controls="method-3-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-3-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Generate the API home page.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.AssemblyData.html" class="refdocgen-link-secondary">AssemblyData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;assemblies</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The assembly data to be used in the template.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="GenerateAssemblyPages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.AssemblyData))" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">GenerateAssemblyPages</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.AssemblyData.html" class="refdocgen-link-secondary">AssemblyData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;assemblies</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#GenerateAssemblyPages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.AssemblyData))">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-4-collapse" aria-expanded="false" aria-controls="method-4-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-4-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Generate the pages representing the individual assemblies.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.AssemblyData.html" class="refdocgen-link-secondary">AssemblyData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;assemblies</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The assembly data to be used in the templates.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="GenerateDelegatePages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.Types.Abstract.Delegate.IDelegateTypeData))" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">GenerateDelegatePages</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.Types.Abstract.Delegate.IDelegateTypeData.html" class="refdocgen-link-secondary">IDelegateTypeData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;delegates</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#GenerateDelegatePages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.Types.Abstract.Delegate.IDelegateTypeData))">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-5-collapse" aria-expanded="false" aria-controls="method-5-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-5-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Generate the pages representing the individual delegate types.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.Types.Abstract.Delegate.IDelegateTypeData.html" class="refdocgen-link-secondary">IDelegateTypeData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;delegates</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The delegate data to be used in the templates.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="GenerateEnumPages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.Types.Abstract.Enum.IEnumTypeData))" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">GenerateEnumPages</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.Types.Abstract.Enum.IEnumTypeData.html" class="refdocgen-link-secondary">IEnumTypeData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;enums</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#GenerateEnumPages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.Types.Abstract.Enum.IEnumTypeData))">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-6-collapse" aria-expanded="false" aria-controls="method-6-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-6-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Generate the pages representing the individual enum types.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.Types.Abstract.Enum.IEnumTypeData.html" class="refdocgen-link-secondary">IEnumTypeData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;enums</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The enum data to be used in the templates.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="GenerateNamespacePages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.NamespaceData))" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">GenerateNamespacePages</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.NamespaceData.html" class="refdocgen-link-secondary">NamespaceData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;namespaces</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#GenerateNamespacePages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.NamespaceData))">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-7-collapse" aria-expanded="false" aria-controls="method-7-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-7-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Generate the pages representing the individual namespaces.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.NamespaceData.html" class="refdocgen-link-secondary">NamespaceData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;namespaces</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The namespace data to be used in the templates.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="GenerateObjectTypePages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.Types.Abstract.IObjectTypeData))" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">GenerateObjectTypePages</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.Types.Abstract.IObjectTypeData.html" class="refdocgen-link-secondary">IObjectTypeData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;types</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#GenerateObjectTypePages(System.Collections.Generic.IEnumerable(RefDocGen.CodeElements.Types.Abstract.IObjectTypeData))">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-8-collapse" aria-expanded="false" aria-controls="method-8-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-8-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Generate the pages representing the individual object types.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.Types.Abstract.IObjectTypeData.html" class="refdocgen-link-secondary">IObjectTypeData</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;types</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The type data to be used in the templates.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="GenerateSearchPage(RefDocGen.CodeElements.TypeRegistry.ITypeRegistry)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">GenerateSearchPage</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.ITypeRegistry.html" class="refdocgen-link-secondary">ITypeRegistry</a></span><span>&#xA0;typeRegistry</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#GenerateSearchPage(RefDocGen.CodeElements.TypeRegistry.ITypeRegistry)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-9-collapse" aria-expanded="false" aria-controls="method-9-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-9-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Generate the search page.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.ITypeRegistry.html" class="refdocgen-link-secondary">ITypeRegistry</a></span><span>&#xA0;typeRegistry</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Type registry containing the declared types.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="GetTemplatesDirectory" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">GetTemplatesDirectory</span><span>(</span><wbr><span>)</span></span>
+
+                            <a class="anchor-link" href="#GetTemplatesDirectory">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-10-collapse" aria-expanded="false" aria-controls="method-10-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-10-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Returns base directory containing the Razor templates and static files.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>Absolute path to the directory containing the Razor templates and static files.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    <div class="mt-3"><div class="lead">Exceptions</div>
+        <div class="mx-3" data-id="exception-section"><div data-id="exception-data"><samp data-id="exception-type" class="text-break"><span class="refdocgen-text-secondary"><a href="./RefDocGen.Tools.Exceptions.InvalidTemplateLocationException.html" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">InvalidTemplateLocationException</span></a></span></samp>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="exception-doc"><div>
+            Thrown in 2 cases
+            <ul class="refdocgen-bullet-list">
+            <li class="refdocgen-list-item">The templates aren't stored under <code class="refdocgen-inline-code">RefDocGen/TemplateProcessors</code> directory.</li>
+            <li class="refdocgen-list-item">The templates (i.e. the generic type parameters) aren't stored in the same directory.</li>
+            </ul>
+            </div></div></div></div></div>
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ProcessApiTemplate--2(--1,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">ProcessApiTemplate</span><span>&lt;</span><span class="refdocgen-text-secondary">TTemplate</span><span>, </span><span class="refdocgen-text-secondary">TTemplateModel</span><span>&gt;</span><span>(</span><wbr><span class="refdocgen-text-secondary">TTemplateModel</span><span>&#xA0;templateModel</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;outputFile</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#ProcessApiTemplate--2(--1,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-11-collapse" aria-expanded="false" aria-controls="method-11-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-11-collapse"><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span><span class="not-visible" data-language="csharp-lang"></span>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Processes the given API template using the provided template model and stores the resulting file in the output folder.
+            </div></div>
+
+                    <div class="mt-3"><div class="lead">Type parameters</div>
+        <div class="mx-3" data-id="type-parameters-section"><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the template to process.</div></div></div><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TTemplateModel</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the template model to be used in the template.</div></div></div></div></div>
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TTemplateModel</span><span>&#xA0;templateModel</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Template model used for the template processing.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;outputFile</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Name of the output file containing the processed template populated with the <code class="refdocgen-paramref">templateModel</code> data.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ProcessApiTemplates--2(System.Collections.Generic.IEnumerable(--1))" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">ProcessApiTemplates</span><span>&lt;</span><span class="refdocgen-text-secondary">TTemplate</span><span>, </span><span class="refdocgen-text-secondary">TTemplateModel</span><span>&gt;</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary">TTemplateModel</span><span class="text-body-secondary">&gt;</span><span>&#xA0;templateModels</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#ProcessApiTemplates--2(System.Collections.Generic.IEnumerable(--1))">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-12-collapse" aria-expanded="false" aria-controls="method-12-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-12-collapse"><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TTemplateModel</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.ITemplateModelWithId.html" class="refdocgen-link-secondary">ITemplateModelWithId</a></span></samp></h6></span>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Processes the given API templates using the provided template models and stores the resulting files in the output folder.
+            </div></div>
+
+                    <div class="mt-3"><div class="lead">Type parameters</div>
+        <div class="mx-3" data-id="type-parameters-section"><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the Razor component representing the template to generate.</div></div></div><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TTemplateModel</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the template model to be used in the template.</div></div></div></div></div>
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary">TTemplateModel</span><span class="text-body-secondary">&gt;</span><span>&#xA0;templateModels</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Template models used for the templates generation.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ProcessTemplate--1(System.Collections.Generic.Dictionary(System.String,System.Object),System.String,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">ProcessTemplate</span><span>&lt;</span><span class="refdocgen-text-secondary">TTemplate</span><span>&gt;</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2" class="refdocgen-link-secondary">Dictionary</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span class="text-body-secondary">, </span><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.object" class="refdocgen-link-secondary">object</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;customTemplateParameters</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;templateOutputDirectory</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;templateFileName</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#ProcessTemplate--1(System.Collections.Generic.Dictionary(System.String,System.Object),System.String,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-13-collapse" aria-expanded="false" aria-controls="method-13-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-13-collapse"><span class="not-visible" data-language="csharp-lang"><h6 class="mx-3" data-id="type-param-constraints"><samp><span class="refdocgen-text-tertiary">where</span>
+            <span class="refdocgen-text-secondary">TTemplate</span>
+            <span> : </span>
+            <span class="refdocgen-text-tertiary"></span><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.IComponent</span></samp></h6></span>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Processes any template, populates it with given data and stores the resulting file in the selected directory.
+            </div></div>
+
+                    <div class="mt-3"><div class="lead">Type parameters</div>
+        <div class="mx-3" data-id="type-parameters-section"><div data-id="type-parameter-data"><samp data-id="type-parameter-declaration"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">TTemplate</span></span></samp>
+                    <div class="text-body-secondary fst-italic mb-2" data-id="type-parameter-doc"><div>Type of the template to process.</div></div></div></div></div>
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2" class="refdocgen-link-secondary">Dictionary</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span class="text-body-secondary">, </span><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.object" class="refdocgen-link-secondary">object</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;customTemplateParameters</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Custom paramters to be passed to the template. Note that the <code class="refdocgen-inline-code">TopMenuData</code> and <code class="refdocgen-inline-code">Versions</code> paramters are passed by default.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;templateOutputDirectory</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Absolute path to the directory where the processed template should be stored.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;templateFileName</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Name of the file (without extension) containing the templated processed with <code class="refdocgen-paramref">customTemplateParameters</code> data.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ProcessTemplates(RefDocGen.CodeElements.TypeRegistry.ITypeRegistry,System.String,System.String,Microsoft.Extensions.Logging.ILogger)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">ProcessTemplates</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.ITypeRegistry.html" class="refdocgen-link-secondary">ITypeRegistry</a></span><span>&#xA0;typeRegistry</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;outputDirectory</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;projectName</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary">Microsoft.Extensions.Logging.ILogger</span><span>&#xA0;logger</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#ProcessTemplates(RefDocGen.CodeElements.TypeRegistry.ITypeRegistry,System.String,System.String,Microsoft.Extensions.Logging.ILogger)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-14-collapse" aria-expanded="false" aria-controls="method-14-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-14-collapse">
+
+                    
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.ITemplateProcessor.html#ProcessTemplates(RefDocGen.CodeElements.TypeRegistry.ITypeRegistry,System.String,System.String,Microsoft.Extensions.Logging.ILogger)" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">ITemplateProcessor.ProcessTemplates</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Process the templates and populate them using the provided type data.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.ITypeRegistry.html" class="refdocgen-link-secondary">ITypeRegistry</a></span><span>&#xA0;typeRegistry</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>A registry of declared type data to be used in the templates.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;outputDirectory</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The directory, where the ouput will be stored.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;projectName</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Name of the assembly/project/solution to be documented (without file extension).</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">Microsoft.Extensions.Logging.ILogger</span><span>&#xA0;logger</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>A logger instance.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ValidateLanguageData(System.Collections.Generic.IEnumerable(RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration))" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">ValidateLanguageData</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration.html" class="refdocgen-link-secondary">ILanguageConfiguration</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;languageData</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#ValidateLanguageData(System.Collections.Generic.IEnumerable(RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration))">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-15-collapse" aria-expanded="false" aria-controls="method-15-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-15-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Checks whether the <code class="refdocgen-paramref">languageData</code> are valid.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration.html" class="refdocgen-link-secondary">ILanguageConfiguration</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;languageData</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The language data to validate.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    <div class="mt-3"><div class="lead">Exceptions</div>
+        <div class="mx-3" data-id="exception-section"><div data-id="exception-data"><samp data-id="exception-type" class="text-break"><span class="refdocgen-text-secondary"><a href="./RefDocGen.Tools.Exceptions.InvalidLanguageIdException.html" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">InvalidLanguageIdException</span></a></span></samp>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="exception-doc"><div>
+            Thrown if an ID of any language is invalid.
+            </div></div></div><div data-id="exception-data"><samp data-id="exception-type" class="text-break"><span class="refdocgen-text-secondary"><a href="./RefDocGen.Tools.Exceptions.DuplicateLanguageIdException.html" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">DuplicateLanguageIdException</span></a></span></samp>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="exception-doc"><div>
+            Thrown if two or more languages have the same ID.
+            </div></div></div></div></div>
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="With(RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration,Microsoft.AspNetCore.Components.Web.HtmlRenderer,System.Collections.Generic.IEnumerable(RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration),System.String,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal static</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.ITemplateProcessor.html" class="refdocgen-link-secondary">ITemplateProcessor</a></span>
+
+<span class="refdocgen-text-primary">With</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html" class="refdocgen-link-secondary">IDocCommentHtmlConfiguration</a></span><span>&#xA0;docCommentHtmlConfiguration</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.Web.HtmlRenderer</span><span>&#xA0;htmlRenderer</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration.html" class="refdocgen-link-secondary">ILanguageConfiguration</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;availableLanguages</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;staticPagesDirectory</span><span> = </span>
+    <span class="refdocgen-text-green">null</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;docVersion</span><span> = </span>
+    <span class="refdocgen-text-green">null</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#With(RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration,Microsoft.AspNetCore.Components.Web.HtmlRenderer,System.Collections.Generic.IEnumerable(RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration),System.String,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-16-collapse" aria-expanded="false" aria-controls="method-16-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-16-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Creates a new instance using the provided data.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html" class="refdocgen-link-secondary">IDocCommentHtmlConfiguration</a></span><span>&#xA0;docCommentHtmlConfiguration</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The configuration describing mapping of the inner XML tags into HTML.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">Microsoft.AspNetCore.Components.Web.HtmlRenderer</span><span>&#xA0;htmlRenderer</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Renderer of the Razor components.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.Languages.ILanguageConfiguration.html" class="refdocgen-link-secondary">ILanguageConfiguration</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;availableLanguages</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>
+            <div>
+            Configuration of languages available in the documentation.
+            </div>
+        </div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;staticPagesDirectory</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Path to the directory containing the static pages created by user. <code class="refdocgen-inline-code">null</code> indicates that the directory is not specified.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;docVersion</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Version of the documentation (e.g. 'v1.0'). Pass <code class="refdocgen-inline-code">null</code> if no specific version should be generated.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.ITemplateProcessor.html" class="refdocgen-link-secondary">ITemplateProcessor</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>An instance of <a class="refdocgen-see-cref" href="./RefDocGen.TemplateProcessors.Shared.RazorTemplateProcessor-8.html">RazorTemplateProcessor&lt;TObjectTypePageTemplate, TDelegatePageTemplate, TEnumPageTemplate, TNamespacePageTemplate, TAssemblyPageTemplate, TApiHomePageTemplate, TStaticPageTemplate, TSearchPageTemplate&gt;</a> class.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div></div><nav class="navbar fixed-bottom menu-bg"><div class="container"><div class="dropup"><button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">v-private</button>
+            <div id="current-version">v-private</div>
+            <div id="version-list">[&quot;v-private&quot;]</div>
+            <ul class="dropdown-menu" id="version-selector" data-id="version-selector"></ul></div></div></nav><script src="../Static/bootstrap-5.3.5-dist.bundle.min.js"></script>
+
+    
+    <script src="../Static/script.js"></script></body></html>

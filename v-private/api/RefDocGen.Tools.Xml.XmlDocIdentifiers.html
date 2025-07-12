@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RefDocGen documentation</title>
+
+    <script>
+
+        // use IIFE in order to avoid polluting global context with functions & variables
+        // https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+        (function() {
+            const isLocalFile = location.protocol === "file:";
+            const defaultTheme = "dark";
+            const defaultLang = "csharp-lang";
+
+            if(isLocalFile){
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let redirect = false;
+
+                // set 'theme' URL param if not found
+                if(!urlParams.has("theme")){
+                    urlParams.set("theme", defaultTheme);
+                    redirect = true;
+                }
+
+                // set 'lang' URL param if not found
+                if(!urlParams.has("lang")){
+                    urlParams.set("lang", defaultLang);
+                    redirect = true;
+                }
+
+                // redirect, if some of the URL parameters are missing
+                if(redirect){
+                    const newUrl = new URL(window.location.href);
+                    newUrl.search = urlParams.toString();
+
+                    window.location.href = newUrl;
+                }
+                else {
+                    document.documentElement.setAttribute("data-bs-theme", urlParams.get("theme")); // set the 'data-bs-theme' attribute
+                    document.documentElement.setAttribute("data-language", urlParams.get("lang")); // set the 'data-language' attribute
+                }
+            }
+            else { // no local file -> use localStorage
+                if (!localStorage.getItem("refdocgen-theme")) {
+                    localStorage.setItem("refdocgen-theme", defaultTheme);
+                }
+
+                if (!localStorage.getItem("refdocgen-language")) {
+                    localStorage.setItem("refdocgen-language", defaultLang);
+                }
+
+                document.documentElement.setAttribute("data-bs-theme", localStorage.getItem("refdocgen-theme")); // set the 'data-bs-theme' attribute
+                document.documentElement.setAttribute("data-language", localStorage.getItem("refdocgen-language")); // set the 'data-language' attribute
+            }
+        })();
+    </script>
+
+    
+    <link href="../Static/styles.css" rel="stylesheet" /><style>html[data-language="csharp-lang"] [data-language="csharp-lang"] { display: inline !important; }
+</style></head>
+
+<body><nav class="navbar navbar-expand-lg sticky-top menu-bg"><div class="container"><a class="navbar-brand" href="../index.html">RefDocGen</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup"><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../api/index.html">API</a></li></ul>
+            <ul class="navbar-nav ms-auto"><li class="nav-item d-flex align-items-center"><form class="me-2 mb-2 mb-lg-0"><select class="form-select" id="language-selector" aria-label="language"><option class="lang-option" value="csharp-lang">C#</option></select></form></li>
+
+                
+                <li class="nav-item d-flex align-items-center"><form role="search" class="me-2"><input class="form-control" autocomplete="off" type="search" placeholder="Search" aria-label="Search" id="menu-search-bar" data-url-target="../search.html" readonly /></form></li>
+
+                
+                <li class="nav-item" id="theme-switcher"><button class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"></path></svg></button></li></ul></div></div></nav>
+
+    <div class="container my-4" data-id="page-body"><div data-id="declared-type-data"><div class="d-flex justify-content-between align-items-center"><h1 class="display-4 text-break" data-id="type-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal static class</span>
+<span class="refdocgen-text-primary">XmlDocIdentifiers</span></span></samp></h1>
+
+    <button class="btn btn-sm" id="toggleAllBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path>
+        <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button>
+
+<script>
+    window.addEventListener('load', function(){
+        const toggleBtn = document.getElementById('toggleAllBtn');
+        const namespaces = Array.from(document.getElementsByClassName('multi-collapse'));
+
+        toggleBtn.addEventListener('click', () => {
+          const allShown = namespaces.every(ns => ns.classList.contains('show'));
+
+          namespaces.forEach(el => {
+            let instance = bootstrap.Collapse.getInstance(el);
+            if (!instance) {
+                // Ensure toggle: false to prevent auto-toggling on creation
+                instance = new bootstrap.Collapse(el, { toggle: false });
+            }
+
+            if (allShown) {
+              instance.hide(); // Collapse if all were shown
+            } else {
+              instance.show(); // Otherwise expand all
+            }
+          });
+        });
+    });
+</script></div>
+
+                        
+
+                        <h6><samp data-id="type-assembly"><a href="RefDocGen-DLL.html" class="refdocgen-link-secondary"><span class="refdocgen-text-tertiary">assembly</span>
+            <span class="refdocgen-text-secondary">RefDocGen</span></a></samp></h6>
+
+                        <h6><samp data-id="type-namespace"><a href="RefDocGen.Tools.Xml.html" class="refdocgen-link-secondary text-break"><span class="refdocgen-text-tertiary">namespace</span>
+            <span class="refdocgen-text-secondary">RefDocGen.Tools.Xml</span></a></samp></h6>
+
+                        <div data-id="base-type"><i>Base type:&nbsp;</i>
+        <samp class="refdocgen-text-secondary text-break"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.object" class="refdocgen-link-secondary">object</a></span></span></samp></div>
+
+                        
+
+                        
+
+                        <hr>
+
+                        
+                        <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Contains constants representing XML element and attribute names found in XML doc comments.
+            </div></div><hr>
+
+                        
+
+                        
+
+                        
+                        
+
+                        
+
+                        </div><h2 class="display-5 mt-2">Fields</h2>
+<div class="row" data-id="fields-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="CodeBlock" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">CodeBlock</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;code&quot;</span></span>
+
+                            <a class="anchor-link" href="#CodeBlock">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-0-collapse" aria-expanded="false" aria-controls="field-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-0-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'code' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Cref" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Cref</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;cref&quot;</span></span>
+
+                            <a class="anchor-link" href="#Cref">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-1-collapse" aria-expanded="false" aria-controls="field-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-1-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'cref' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Description" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Description</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;description&quot;</span></span>
+
+                            <a class="anchor-link" href="#Description">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-2-collapse" aria-expanded="false" aria-controls="field-2-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-2-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'description' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Example" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Example</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;example&quot;</span></span>
+
+                            <a class="anchor-link" href="#Example">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-3-collapse" aria-expanded="false" aria-controls="field-3-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-3-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'example' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Exception" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Exception</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;exception&quot;</span></span>
+
+                            <a class="anchor-link" href="#Exception">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-4-collapse" aria-expanded="false" aria-controls="field-4-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-4-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'exception' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Href" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Href</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;href&quot;</span></span>
+
+                            <a class="anchor-link" href="#Href">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-5-collapse" aria-expanded="false" aria-controls="field-5-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-5-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'href' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="InheritDoc" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">InheritDoc</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;inheritdoc&quot;</span></span>
+
+                            <a class="anchor-link" href="#InheritDoc">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-6-collapse" aria-expanded="false" aria-controls="field-6-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-6-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'inheritdoc' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="InlineCode" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">InlineCode</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;c&quot;</span></span>
+
+                            <a class="anchor-link" href="#InlineCode">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-7-collapse" aria-expanded="false" aria-controls="field-7-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-7-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'c' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Item" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Item</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;item&quot;</span></span>
+
+                            <a class="anchor-link" href="#Item">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-8-collapse" aria-expanded="false" aria-controls="field-8-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-8-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'item' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Langword" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Langword</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;langword&quot;</span></span>
+
+                            <a class="anchor-link" href="#Langword">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-9-collapse" aria-expanded="false" aria-controls="field-9-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-9-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'langword' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="List" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">List</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;list&quot;</span></span>
+
+                            <a class="anchor-link" href="#List">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-10-collapse" aria-expanded="false" aria-controls="field-10-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-10-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'list' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ListHeader" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">ListHeader</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;listheader&quot;</span></span>
+
+                            <a class="anchor-link" href="#ListHeader">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-11-collapse" aria-expanded="false" aria-controls="field-11-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-11-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'description' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Member" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Member</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;member&quot;</span></span>
+
+                            <a class="anchor-link" href="#Member">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-12-collapse" aria-expanded="false" aria-controls="field-12-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-12-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'member' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Name" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Name</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;name&quot;</span></span>
+
+                            <a class="anchor-link" href="#Name">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-13-collapse" aria-expanded="false" aria-controls="field-13-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-13-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'name' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Para" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Para</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;para&quot;</span></span>
+
+                            <a class="anchor-link" href="#Para">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-14-collapse" aria-expanded="false" aria-controls="field-14-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-14-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'para' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Param" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Param</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;param&quot;</span></span>
+
+                            <a class="anchor-link" href="#Param">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-15-collapse" aria-expanded="false" aria-controls="field-15-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-15-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'param' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ParamRef" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">ParamRef</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;paramref&quot;</span></span>
+
+                            <a class="anchor-link" href="#ParamRef">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-16-collapse" aria-expanded="false" aria-controls="field-16-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-16-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'paramref' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Path" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Path</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;path&quot;</span></span>
+
+                            <a class="anchor-link" href="#Path">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-17-collapse" aria-expanded="false" aria-controls="field-17-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-17-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'path' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Remarks" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Remarks</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;remarks&quot;</span></span>
+
+                            <a class="anchor-link" href="#Remarks">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-18-collapse" aria-expanded="false" aria-controls="field-18-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-18-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'remarks' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Returns" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Returns</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;returns&quot;</span></span>
+
+                            <a class="anchor-link" href="#Returns">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-19-collapse" aria-expanded="false" aria-controls="field-19-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-19-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'returns' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="See" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">See</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;see&quot;</span></span>
+
+                            <a class="anchor-link" href="#See">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-20-collapse" aria-expanded="false" aria-controls="field-20-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-20-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'see' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="SeeAlso" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">SeeAlso</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;seealso&quot;</span></span>
+
+                            <a class="anchor-link" href="#SeeAlso">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-21-collapse" aria-expanded="false" aria-controls="field-21-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-21-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'seealso' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Summary" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Summary</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;summary&quot;</span></span>
+
+                            <a class="anchor-link" href="#Summary">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-22-collapse" aria-expanded="false" aria-controls="field-22-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-22-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'summary' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Term" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Term</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;term&quot;</span></span>
+
+                            <a class="anchor-link" href="#Term">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-23-collapse" aria-expanded="false" aria-controls="field-23-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-23-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'term' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TypeParam" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">TypeParam</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;typeparam&quot;</span></span>
+
+                            <a class="anchor-link" href="#TypeParam">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-24-collapse" aria-expanded="false" aria-controls="field-24-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-24-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'typeparam' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TypeParamRef" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">TypeParamRef</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;typeparamref&quot;</span></span>
+
+                            <a class="anchor-link" href="#TypeParamRef">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-25-collapse" aria-expanded="false" aria-controls="field-25-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-25-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'typeparamref' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Value" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">Value</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;value&quot;</span></span>
+
+                            <a class="anchor-link" href="#Value">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-26-collapse" aria-expanded="false" aria-controls="field-26-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-26-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Represents the 'value' identifier.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div></div><nav class="navbar fixed-bottom menu-bg"><div class="container"><div class="dropup"><button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">v-private</button>
+            <div id="current-version">v-private</div>
+            <div id="version-list">[&quot;v-private&quot;]</div>
+            <ul class="dropdown-menu" id="version-selector" data-id="version-selector"></ul></div></div></nav><script src="../Static/bootstrap-5.3.5-dist.bundle.min.js"></script>
+
+    
+    <script src="../Static/script.js"></script></body></html>

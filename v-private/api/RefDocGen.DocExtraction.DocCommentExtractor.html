@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RefDocGen documentation</title>
+
+    <script>
+
+        // use IIFE in order to avoid polluting global context with functions & variables
+        // https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+        (function() {
+            const isLocalFile = location.protocol === "file:";
+            const defaultTheme = "dark";
+            const defaultLang = "csharp-lang";
+
+            if(isLocalFile){
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let redirect = false;
+
+                // set 'theme' URL param if not found
+                if(!urlParams.has("theme")){
+                    urlParams.set("theme", defaultTheme);
+                    redirect = true;
+                }
+
+                // set 'lang' URL param if not found
+                if(!urlParams.has("lang")){
+                    urlParams.set("lang", defaultLang);
+                    redirect = true;
+                }
+
+                // redirect, if some of the URL parameters are missing
+                if(redirect){
+                    const newUrl = new URL(window.location.href);
+                    newUrl.search = urlParams.toString();
+
+                    window.location.href = newUrl;
+                }
+                else {
+                    document.documentElement.setAttribute("data-bs-theme", urlParams.get("theme")); // set the 'data-bs-theme' attribute
+                    document.documentElement.setAttribute("data-language", urlParams.get("lang")); // set the 'data-language' attribute
+                }
+            }
+            else { // no local file -> use localStorage
+                if (!localStorage.getItem("refdocgen-theme")) {
+                    localStorage.setItem("refdocgen-theme", defaultTheme);
+                }
+
+                if (!localStorage.getItem("refdocgen-language")) {
+                    localStorage.setItem("refdocgen-language", defaultLang);
+                }
+
+                document.documentElement.setAttribute("data-bs-theme", localStorage.getItem("refdocgen-theme")); // set the 'data-bs-theme' attribute
+                document.documentElement.setAttribute("data-language", localStorage.getItem("refdocgen-language")); // set the 'data-language' attribute
+            }
+        })();
+    </script>
+
+    
+    <link href="../Static/styles.css" rel="stylesheet" /><style>html[data-language="csharp-lang"] [data-language="csharp-lang"] { display: inline !important; }
+</style></head>
+
+<body><nav class="navbar navbar-expand-lg sticky-top menu-bg"><div class="container"><a class="navbar-brand" href="../index.html">RefDocGen</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup"><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../api/index.html">API</a></li></ul>
+            <ul class="navbar-nav ms-auto"><li class="nav-item d-flex align-items-center"><form class="me-2 mb-2 mb-lg-0"><select class="form-select" id="language-selector" aria-label="language"><option class="lang-option" value="csharp-lang">C#</option></select></form></li>
+
+                
+                <li class="nav-item d-flex align-items-center"><form role="search" class="me-2"><input class="form-control" autocomplete="off" type="search" placeholder="Search" aria-label="Search" id="menu-search-bar" data-url-target="../search.html" readonly /></form></li>
+
+                
+                <li class="nav-item" id="theme-switcher"><button class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"></path></svg></button></li></ul></div></div></nav>
+
+    <div class="container my-4" data-id="page-body"><div data-id="declared-type-data"><div class="d-flex justify-content-between align-items-center"><h1 class="display-4 text-break" data-id="type-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal class</span>
+<span class="refdocgen-text-primary">DocCommentExtractor</span></span></samp></h1>
+
+    <button class="btn btn-sm" id="toggleAllBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path>
+        <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button>
+
+<script>
+    window.addEventListener('load', function(){
+        const toggleBtn = document.getElementById('toggleAllBtn');
+        const namespaces = Array.from(document.getElementsByClassName('multi-collapse'));
+
+        toggleBtn.addEventListener('click', () => {
+          const allShown = namespaces.every(ns => ns.classList.contains('show'));
+
+          namespaces.forEach(el => {
+            let instance = bootstrap.Collapse.getInstance(el);
+            if (!instance) {
+                // Ensure toggle: false to prevent auto-toggling on creation
+                instance = new bootstrap.Collapse(el, { toggle: false });
+            }
+
+            if (allShown) {
+              instance.hide(); // Collapse if all were shown
+            } else {
+              instance.show(); // Otherwise expand all
+            }
+          });
+        });
+    });
+</script></div>
+
+                        
+
+                        <h6><samp data-id="type-assembly"><a href="RefDocGen-DLL.html" class="refdocgen-link-secondary"><span class="refdocgen-text-tertiary">assembly</span>
+            <span class="refdocgen-text-secondary">RefDocGen</span></a></samp></h6>
+
+                        <h6><samp data-id="type-namespace"><a href="RefDocGen.DocExtraction.html" class="refdocgen-link-secondary text-break"><span class="refdocgen-text-tertiary">namespace</span>
+            <span class="refdocgen-text-secondary">RefDocGen.DocExtraction</span></a></samp></h6>
+
+                        <div data-id="base-type"><i>Base type:&nbsp;</i>
+        <samp class="refdocgen-text-secondary text-break"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.object" class="refdocgen-link-secondary">object</a></span></span></samp></div>
+
+                        
+
+                        
+
+                        <hr>
+
+                        
+                        <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Class responsible for extracting the XML documentation comments and adding them to the type data
+            </div></div><hr>
+
+                        
+
+                        
+
+                        
+                        
+
+                        
+
+                        </div><h2 class="display-5 mt-2">Constructors</h2>
+<div class="row" data-id="constructors-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id=".ctor(System.Collections.Generic.IEnumerable(System.String),RefDocGen.CodeElements.TypeRegistry.TypeRegistry,Microsoft.Extensions.Logging.ILogger)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal</span>
+<span class="refdocgen-text-primary">DocCommentExtractor</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;docXmlPaths</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.TypeRegistry.html" class="refdocgen-link-secondary">TypeRegistry</a></span><span>&#xA0;typeRegistry</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary">Microsoft.Extensions.Logging.ILogger</span><span>&#xA0;logger</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#.ctor(System.Collections.Generic.IEnumerable(System.String),RefDocGen.CodeElements.TypeRegistry.TypeRegistry,Microsoft.Extensions.Logging.ILogger)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#ctor-0-collapse" aria-expanded="false" aria-controls="ctor-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="ctor-0-collapse"><div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Initializes a new instance of the <a class="refdocgen-see-cref" href="./RefDocGen.DocExtraction.DocCommentExtractor.html">DocCommentExtractor</a> class.
+            </div></div>
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span class="text-body-secondary">&gt;</span><span>&#xA0;docXmlPaths</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Paths to the XML documentation files.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.TypeRegistry.html" class="refdocgen-link-secondary">TypeRegistry</a></span><span>&#xA0;typeRegistry</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Registry of the declared types, to which the documentation comments will be added.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary">Microsoft.Extensions.Logging.ILogger</span><span>&#xA0;logger</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>A logger instance.</div></div></div></div></div>
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div><h2 class="display-5 mt-2">Fields</h2>
+<div class="row" data-id="fields-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="addingInheritedDocs" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.boolean" class="refdocgen-link-secondary">bool</a></span>
+
+<span class="refdocgen-text-primary">addingInheritedDocs</span>
+
+</span>
+
+                            <a class="anchor-link" href="#addingInheritedDocs">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-0-collapse" aria-expanded="false" aria-controls="field-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-0-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Checks whether we're in the phase of adding resolved inheritdocs.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="baseMemberDocHandlers" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2" class="refdocgen-link-secondary">Dictionary</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span class="text-body-secondary">, </span><span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.Handlers.Members.IMemberDocHandler-1.html" class="refdocgen-link-secondary">IMemberDocHandler</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.Types.Concrete.ObjectTypeData.html" class="refdocgen-link-secondary">ObjectTypeData</a></span><span class="text-body-secondary">&gt;</span><span class="text-body-secondary">&gt;</span>
+
+<span class="refdocgen-text-primary">baseMemberDocHandlers</span>
+
+</span>
+
+                            <a class="anchor-link" href="#baseMemberDocHandlers">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-1-collapse" aria-expanded="false" aria-controls="field-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-1-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Dictionary of the selected member documentation handlers, identified by <a class="refdocgen-see-cref" href="./RefDocGen.DocExtraction.Tools.CodeElementId.html">CodeElementId</a> identifiers.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="constructorDocHandler" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.Handlers.Members.ConstructorDocHandler.html" class="refdocgen-link-secondary">ConstructorDocHandler</a></span>
+
+<span class="refdocgen-text-primary">constructorDocHandler</span>
+
+</span>
+
+                            <a class="anchor-link" href="#constructorDocHandler">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-2-collapse" aria-expanded="false" aria-controls="field-2-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-2-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Handler for the constructor doc comments.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="crefInheritDocResolver" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.InheritDoc.CrefInheritDocResolver.html" class="refdocgen-link-secondary">CrefInheritDocResolver</a></span>
+
+<span class="refdocgen-text-primary">crefInheritDocResolver</span>
+
+</span>
+
+                            <a class="anchor-link" href="#crefInheritDocResolver">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-3-collapse" aria-expanded="false" aria-controls="field-3-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-3-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Resolver of the 'inheritdoc' cref comments.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="delegateTypeDocHandler" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.Handlers.Types.DelegateTypeDocHandler.html" class="refdocgen-link-secondary">DelegateTypeDocHandler</a></span>
+
+<span class="refdocgen-text-primary">delegateTypeDocHandler</span>
+
+</span>
+
+                            <a class="anchor-link" href="#delegateTypeDocHandler">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-4-collapse" aria-expanded="false" aria-controls="field-4-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-4-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Handler for the delegate type doc comments.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="docXmlPaths" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1" class="refdocgen-link-secondary">IEnumerable</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span class="text-body-secondary">&gt;</span>
+
+<span class="refdocgen-text-primary">docXmlPaths</span>
+
+</span>
+
+                            <a class="anchor-link" href="#docXmlPaths">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-5-collapse" aria-expanded="false" aria-controls="field-5-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-5-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Paths to the XML documentation files.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="enumMemberDocHandler" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.Handlers.Members.Enum.EnumMemberDocHandler.html" class="refdocgen-link-secondary">EnumMemberDocHandler</a></span>
+
+<span class="refdocgen-text-primary">enumMemberDocHandler</span>
+
+</span>
+
+                            <a class="anchor-link" href="#enumMemberDocHandler">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-6-collapse" aria-expanded="false" aria-controls="field-6-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-6-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Handler for the enum member doc comments.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="indexerDocHandler" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.Handlers.Members.IndexerDocHandler.html" class="refdocgen-link-secondary">IndexerDocHandler</a></span>
+
+<span class="refdocgen-text-primary">indexerDocHandler</span>
+
+</span>
+
+                            <a class="anchor-link" href="#indexerDocHandler">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-7-collapse" aria-expanded="false" aria-controls="field-7-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-7-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Handler for the indexer doc comments.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="inheritDocMembers" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1" class="refdocgen-link-secondary">List</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.Members.Concrete.MemberData.html" class="refdocgen-link-secondary">MemberData</a></span><span class="text-body-secondary">&gt;</span>
+
+<span class="refdocgen-text-primary">inheritDocMembers</span>
+
+</span>
+
+                            <a class="anchor-link" href="#inheritDocMembers">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-8-collapse" aria-expanded="false" aria-controls="field-8-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-8-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            List of members, that have 'inheritdoc' documentation without 'cref' attribute.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="inheritDocTypes" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1" class="refdocgen-link-secondary">List</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.Types.Concrete.TypeDeclaration.html" class="refdocgen-link-secondary">TypeDeclaration</a></span><span class="text-body-secondary">&gt;</span>
+
+<span class="refdocgen-text-primary">inheritDocTypes</span>
+
+</span>
+
+                            <a class="anchor-link" href="#inheritDocTypes">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-9-collapse" aria-expanded="false" aria-controls="field-9-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-9-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            List of types, that have 'inheritdoc' documentation without 'cref' attribute.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="logger" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary">Microsoft.Extensions.Logging.ILogger</span>
+
+<span class="refdocgen-text-primary">logger</span>
+
+</span>
+
+                            <a class="anchor-link" href="#logger">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-10-collapse" aria-expanded="false" aria-controls="field-10-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-10-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            A logger instance.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="memberInheritDocResolver" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.InheritDoc.MemberInheritDocResolver.html" class="refdocgen-link-secondary">MemberInheritDocResolver</a></span>
+
+<span class="refdocgen-text-primary">memberInheritDocResolver</span>
+
+</span>
+
+                            <a class="anchor-link" href="#memberInheritDocResolver">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-11-collapse" aria-expanded="false" aria-controls="field-11-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-11-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Resolver of the 'inheritdoc' member comments.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="operatorDocHandler" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.Handlers.Members.OperatorDocHandler.html" class="refdocgen-link-secondary">OperatorDocHandler</a></span>
+
+<span class="refdocgen-text-primary">operatorDocHandler</span>
+
+</span>
+
+                            <a class="anchor-link" href="#operatorDocHandler">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-12-collapse" aria-expanded="false" aria-controls="field-12-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-12-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Handler for the operator doc comments.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="typeDocHandler" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.Handlers.Types.TypeDocHandler.html" class="refdocgen-link-secondary">TypeDocHandler</a></span>
+
+<span class="refdocgen-text-primary">typeDocHandler</span>
+
+</span>
+
+                            <a class="anchor-link" href="#typeDocHandler">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-13-collapse" aria-expanded="false" aria-controls="field-13-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-13-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Handler for the type doc comments.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="typeInheritDocResolver" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.DocExtraction.InheritDoc.TypeInheritDocResolver.html" class="refdocgen-link-secondary">TypeInheritDocResolver</a></span>
+
+<span class="refdocgen-text-primary">typeInheritDocResolver</span>
+
+</span>
+
+                            <a class="anchor-link" href="#typeInheritDocResolver">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-14-collapse" aria-expanded="false" aria-controls="field-14-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-14-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Resolver of the 'inheritdoc' type comments.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="typeRegistry" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.TypeRegistry.html" class="refdocgen-link-secondary">TypeRegistry</a></span>
+
+<span class="refdocgen-text-primary">typeRegistry</span>
+
+</span>
+
+                            <a class="anchor-link" href="#typeRegistry">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-15-collapse" aria-expanded="false" aria-controls="field-15-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-15-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Registry of the declared types, to which the documentation comments will be added.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div><h2 class="display-5 mt-2">Methods</h2>
+<div class="row" data-id="methods-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="AddComments" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">AddComments</span><span>(</span><wbr><span>)</span></span>
+
+                            <a class="anchor-link" href="#AddComments">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-0-collapse" aria-expanded="false" aria-controls="method-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-0-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Extract the XML documentation comments and add them to the provided types and type members.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="AddDocComment(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">AddDocComment</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docComment</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#AddDocComment(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-1-collapse" aria-expanded="false" aria-controls="method-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-1-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Add doc comment to the corresponding type or type member.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docComment</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Doc comment to add.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="AddInheritedDocComment(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">AddInheritedDocComment</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docComment</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#AddInheritedDocComment(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-2-collapse" aria-expanded="false" aria-controls="method-2-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-2-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Add the inherited doc comment to the corresponding type or type member.
+            Does nothing if <code class="refdocgen-paramref">docComment</code> is <code class="refdocgen-inline-code">null</code> or empty.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docComment</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Doc comment to add.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="AddMemberDocComment(System.String,System.String,System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">AddMemberDocComment</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;memberKindId</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;fullMemberName</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docCommentNode</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#AddMemberDocComment(System.String,System.String,System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-3-collapse" aria-expanded="false" aria-controls="method-3-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-3-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Add the doc comment to the corresponding type member.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;memberKindId</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Identifier of the member kind.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;fullMemberName</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Fully qualified name of the member.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docCommentNode</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>XML node of the doc comment for the given type member.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="AddTypeDocComment(System.String,System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">AddTypeDocComment</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;typeId</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docCommentNode</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#AddTypeDocComment(System.String,System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-4-collapse" aria-expanded="false" aria-controls="method-4-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-4-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Add doc comment to the given type.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;typeId</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Id of the type.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docCommentNode</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>XML node of the doc comment for the given type.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ResolveCrefInheritDocs" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">ResolveCrefInheritDocs</span><span>(</span><wbr><span>)</span></span>
+
+                            <a class="anchor-link" href="#ResolveCrefInheritDocs">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-5-collapse" aria-expanded="false" aria-controls="method-5-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-5-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Checks all types and members for inheritdoc comments with 'cref' attribute and resolves them (if possible).
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div></div><nav class="navbar fixed-bottom menu-bg"><div class="container"><div class="dropup"><button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">v-private</button>
+            <div id="current-version">v-private</div>
+            <div id="version-list">[&quot;v-private&quot;]</div>
+            <ul class="dropdown-menu" id="version-selector" data-id="version-selector"></ul></div></div></nav><script src="../Static/bootstrap-5.3.5-dist.bundle.min.js"></script>
+
+    
+    <script src="../Static/script.js"></script></body></html>

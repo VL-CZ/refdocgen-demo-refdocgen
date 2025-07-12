@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RefDocGen documentation</title>
+
+    <script>
+
+        // use IIFE in order to avoid polluting global context with functions & variables
+        // https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+        (function() {
+            const isLocalFile = location.protocol === "file:";
+            const defaultTheme = "dark";
+            const defaultLang = "csharp-lang";
+
+            if(isLocalFile){
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let redirect = false;
+
+                // set 'theme' URL param if not found
+                if(!urlParams.has("theme")){
+                    urlParams.set("theme", defaultTheme);
+                    redirect = true;
+                }
+
+                // set 'lang' URL param if not found
+                if(!urlParams.has("lang")){
+                    urlParams.set("lang", defaultLang);
+                    redirect = true;
+                }
+
+                // redirect, if some of the URL parameters are missing
+                if(redirect){
+                    const newUrl = new URL(window.location.href);
+                    newUrl.search = urlParams.toString();
+
+                    window.location.href = newUrl;
+                }
+                else {
+                    document.documentElement.setAttribute("data-bs-theme", urlParams.get("theme")); // set the 'data-bs-theme' attribute
+                    document.documentElement.setAttribute("data-language", urlParams.get("lang")); // set the 'data-language' attribute
+                }
+            }
+            else { // no local file -> use localStorage
+                if (!localStorage.getItem("refdocgen-theme")) {
+                    localStorage.setItem("refdocgen-theme", defaultTheme);
+                }
+
+                if (!localStorage.getItem("refdocgen-language")) {
+                    localStorage.setItem("refdocgen-language", defaultLang);
+                }
+
+                document.documentElement.setAttribute("data-bs-theme", localStorage.getItem("refdocgen-theme")); // set the 'data-bs-theme' attribute
+                document.documentElement.setAttribute("data-language", localStorage.getItem("refdocgen-language")); // set the 'data-language' attribute
+            }
+        })();
+    </script>
+
+    
+    <link href="../Static/styles.css" rel="stylesheet" /><style>html[data-language="csharp-lang"] [data-language="csharp-lang"] { display: inline !important; }
+</style></head>
+
+<body><nav class="navbar navbar-expand-lg sticky-top menu-bg"><div class="container"><a class="navbar-brand" href="../index.html">RefDocGen</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup"><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../api/index.html">API</a></li></ul>
+            <ul class="navbar-nav ms-auto"><li class="nav-item d-flex align-items-center"><form class="me-2 mb-2 mb-lg-0"><select class="form-select" id="language-selector" aria-label="language"><option class="lang-option" value="csharp-lang">C#</option></select></form></li>
+
+                
+                <li class="nav-item d-flex align-items-center"><form role="search" class="me-2"><input class="form-control" autocomplete="off" type="search" placeholder="Search" aria-label="Search" id="menu-search-bar" data-url-target="../search.html" readonly /></form></li>
+
+                
+                <li class="nav-item" id="theme-switcher"><button class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"></path></svg></button></li></ul></div></div></nav>
+
+    <div class="container my-4" data-id="page-body"><div data-id="declared-type-data"><div class="d-flex justify-content-between align-items-center"><h1 class="display-4 text-break" data-id="type-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal class</span>
+<span class="refdocgen-text-primary">DocCommentHtmlConfiguration</span></span></samp></h1>
+
+    <button class="btn btn-sm" id="toggleAllBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path>
+        <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button>
+
+<script>
+    window.addEventListener('load', function(){
+        const toggleBtn = document.getElementById('toggleAllBtn');
+        const namespaces = Array.from(document.getElementsByClassName('multi-collapse'));
+
+        toggleBtn.addEventListener('click', () => {
+          const allShown = namespaces.every(ns => ns.classList.contains('show'));
+
+          namespaces.forEach(el => {
+            let instance = bootstrap.Collapse.getInstance(el);
+            if (!instance) {
+                // Ensure toggle: false to prevent auto-toggling on creation
+                instance = new bootstrap.Collapse(el, { toggle: false });
+            }
+
+            if (allShown) {
+              instance.hide(); // Collapse if all were shown
+            } else {
+              instance.show(); // Otherwise expand all
+            }
+          });
+        });
+    });
+</script></div>
+
+                        
+
+                        <h6><samp data-id="type-assembly"><a href="RefDocGen-DLL.html" class="refdocgen-link-secondary"><span class="refdocgen-text-tertiary">assembly</span>
+            <span class="refdocgen-text-secondary">RefDocGen</span></a></samp></h6>
+
+                        <h6><samp data-id="type-namespace"><a href="RefDocGen.TemplateProcessors.Shared.DocComments.Html.html" class="refdocgen-link-secondary text-break"><span class="refdocgen-text-tertiary">namespace</span>
+            <span class="refdocgen-text-secondary">RefDocGen.TemplateProcessors.Shared.DocComments.Html</span></a></samp></h6>
+
+                        <div data-id="base-type"><i>Base type:&nbsp;</i>
+        <samp class="refdocgen-text-secondary text-break"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.object" class="refdocgen-link-secondary">object</a></span></span></samp></div>
+
+                        <div data-id="implemented-interfaces" class="text-break"><i>Implements:&nbsp;</i>
+        <samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html" class="refdocgen-link-secondary">IDocCommentHtmlConfiguration</a></span></span></samp></div>
+
+                        
+
+                        <hr>
+
+                        
+                        <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Default configuration for transforming the XML documentation elements into their HTML representations.
+            </div></div><hr>
+
+                        
+
+                        
+
+                        
+                        
+
+                        
+
+                        </div><h2 class="display-5 mt-2">Constructors</h2>
+<div class="row" data-id="constructors-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id=".ctor" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public</span>
+<span class="refdocgen-text-primary">DocCommentHtmlConfiguration</span><span>(</span><wbr><span>)</span></span>
+
+                            <a class="anchor-link" href="#.ctor">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#ctor-0-collapse" aria-expanded="false" aria-controls="ctor-0-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="ctor-0-collapse">
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div><h2 class="display-5 mt-2">Properties</h2>
+<div class="row" data-id="properties-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="BulletListElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">BulletListElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#BulletListElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-0-collapse" aria-expanded="false" aria-controls="property-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-0-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#BulletListElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.BulletListElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;list type="bullet"&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="CodeBlockElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">CodeBlockElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#CodeBlockElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-1-collapse" aria-expanded="false" aria-controls="property-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-1-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#CodeBlockElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.CodeBlockElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;code&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ExampleElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">ExampleElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#ExampleElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-2-collapse" aria-expanded="false" aria-controls="property-2-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-2-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#ExampleElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.ExampleElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;example&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="InlineCodeElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">InlineCodeElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#InlineCodeElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-3-collapse" aria-expanded="false" aria-controls="property-3-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-3-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#InlineCodeElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.InlineCodeElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;c&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ListDescriptionElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">ListDescriptionElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#ListDescriptionElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-4-collapse" aria-expanded="false" aria-controls="property-4-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-4-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#ListDescriptionElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.ListDescriptionElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;description&gt;</code> element contained in a non-table list.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ListHeaderElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">ListHeaderElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#ListHeaderElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-5-collapse" aria-expanded="false" aria-controls="property-5-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-5-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#ListHeaderElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.ListHeaderElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;listheader&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ListItemElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">ListItemElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#ListItemElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-6-collapse" aria-expanded="false" aria-controls="property-6-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-6-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#ListItemElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.ListItemElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;item&gt;</code> element contained in a non-table list.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ListTermElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">ListTermElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#ListTermElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-7-collapse" aria-expanded="false" aria-controls="property-7-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-7-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#ListTermElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.ListTermElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;term&gt;</code> element contained in a non-table list.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="NumberListElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">NumberListElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#NumberListElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-8-collapse" aria-expanded="false" aria-controls="property-8-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-8-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#NumberListElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.NumberListElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;list type="number"&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ParagraphElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">ParagraphElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#ParagraphElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-9-collapse" aria-expanded="false" aria-controls="property-9-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-9-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#ParagraphElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.ParagraphElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;para&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ParamRefElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">ParamRefElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#ParamRefElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-10-collapse" aria-expanded="false" aria-controls="property-10-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-10-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#ParamRefElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.ParamRefElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;paramref&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="SeeAlsoCrefElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">SeeAlsoCrefElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#SeeAlsoCrefElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-11-collapse" aria-expanded="false" aria-controls="property-11-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-11-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#SeeAlsoCrefElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.SeeAlsoCrefElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;seealso cref="..."&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="SeeAlsoCrefNotFoundElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">SeeAlsoCrefNotFoundElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#SeeAlsoCrefNotFoundElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-12-collapse" aria-expanded="false" aria-controls="property-12-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-12-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#SeeAlsoCrefNotFoundElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.SeeAlsoCrefNotFoundElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;seealso cref="..."&gt;</code> element, whose reference isn't found.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="SeeAlsoHrefElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">SeeAlsoHrefElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#SeeAlsoHrefElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-13-collapse" aria-expanded="false" aria-controls="property-13-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-13-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#SeeAlsoHrefElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.SeeAlsoHrefElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;seealso href="..."&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="SeeCrefElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">SeeCrefElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#SeeCrefElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-14-collapse" aria-expanded="false" aria-controls="property-14-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-14-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#SeeCrefElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.SeeCrefElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;see cref="..."&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="SeeCrefNotFoundElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">SeeCrefNotFoundElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#SeeCrefNotFoundElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-15-collapse" aria-expanded="false" aria-controls="property-15-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-15-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#SeeCrefNotFoundElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.SeeCrefNotFoundElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;see cref="..."&gt;</code> element, whose reference isn't found.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="SeeHrefElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">SeeHrefElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#SeeHrefElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-16-collapse" aria-expanded="false" aria-controls="property-16-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-16-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#SeeHrefElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.SeeHrefElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;see href="..."&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="SeeLangwordElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">SeeLangwordElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#SeeLangwordElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-17-collapse" aria-expanded="false" aria-controls="property-17-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-17-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#SeeLangwordElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.SeeLangwordElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;see langword="..."&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TableDescriptionElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TableDescriptionElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#TableDescriptionElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-18-collapse" aria-expanded="false" aria-controls="property-18-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-18-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#TableDescriptionElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.TableDescriptionElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;description&gt;</code> element contained in a table list.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TableItemElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TableItemElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#TableItemElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-19-collapse" aria-expanded="false" aria-controls="property-19-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-19-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#TableItemElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.TableItemElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;item&gt;</code> element contained in a table list.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TableListElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TableListElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#TableListElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-20-collapse" aria-expanded="false" aria-controls="property-20-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-20-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#TableListElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.TableListElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;list type="table"&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TableTermElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TableTermElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#TableTermElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-21-collapse" aria-expanded="false" aria-controls="property-21-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-21-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#TableTermElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.TableTermElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;term&gt;</code> element contained in a table list.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TypeParamRefElement" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TypeParamRefElement</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#TypeParamRefElement">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-22-collapse" aria-expanded="false" aria-controls="property-22-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-22-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html#TypeParamRefElement" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentHtmlConfiguration.TypeParamRefElement</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;typeparamref&gt;</code> element.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div></div><nav class="navbar fixed-bottom menu-bg"><div class="container"><div class="dropup"><button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">v-private</button>
+            <div id="current-version">v-private</div>
+            <div id="version-list">[&quot;v-private&quot;]</div>
+            <ul class="dropdown-menu" id="version-selector" data-id="version-selector"></ul></div></div></nav><script src="../Static/bootstrap-5.3.5-dist.bundle.min.js"></script>
+
+    
+    <script src="../Static/script.js"></script></body></html>

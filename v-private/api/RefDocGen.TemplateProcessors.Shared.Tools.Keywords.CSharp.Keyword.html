@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RefDocGen documentation</title>
+
+    <script>
+
+        // use IIFE in order to avoid polluting global context with functions & variables
+        // https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+        (function() {
+            const isLocalFile = location.protocol === "file:";
+            const defaultTheme = "dark";
+            const defaultLang = "csharp-lang";
+
+            if(isLocalFile){
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let redirect = false;
+
+                // set 'theme' URL param if not found
+                if(!urlParams.has("theme")){
+                    urlParams.set("theme", defaultTheme);
+                    redirect = true;
+                }
+
+                // set 'lang' URL param if not found
+                if(!urlParams.has("lang")){
+                    urlParams.set("lang", defaultLang);
+                    redirect = true;
+                }
+
+                // redirect, if some of the URL parameters are missing
+                if(redirect){
+                    const newUrl = new URL(window.location.href);
+                    newUrl.search = urlParams.toString();
+
+                    window.location.href = newUrl;
+                }
+                else {
+                    document.documentElement.setAttribute("data-bs-theme", urlParams.get("theme")); // set the 'data-bs-theme' attribute
+                    document.documentElement.setAttribute("data-language", urlParams.get("lang")); // set the 'data-language' attribute
+                }
+            }
+            else { // no local file -> use localStorage
+                if (!localStorage.getItem("refdocgen-theme")) {
+                    localStorage.setItem("refdocgen-theme", defaultTheme);
+                }
+
+                if (!localStorage.getItem("refdocgen-language")) {
+                    localStorage.setItem("refdocgen-language", defaultLang);
+                }
+
+                document.documentElement.setAttribute("data-bs-theme", localStorage.getItem("refdocgen-theme")); // set the 'data-bs-theme' attribute
+                document.documentElement.setAttribute("data-language", localStorage.getItem("refdocgen-language")); // set the 'data-language' attribute
+            }
+        })();
+    </script>
+
+    
+    <link href="../Static/styles.css" rel="stylesheet" /><style>html[data-language="csharp-lang"] [data-language="csharp-lang"] { display: inline !important; }
+</style></head>
+
+<body><nav class="navbar navbar-expand-lg sticky-top menu-bg"><div class="container"><a class="navbar-brand" href="../index.html">RefDocGen</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup"><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../api/index.html">API</a></li></ul>
+            <ul class="navbar-nav ms-auto"><li class="nav-item d-flex align-items-center"><form class="me-2 mb-2 mb-lg-0"><select class="form-select" id="language-selector" aria-label="language"><option class="lang-option" value="csharp-lang">C#</option></select></form></li>
+
+                
+                <li class="nav-item d-flex align-items-center"><form role="search" class="me-2"><input class="form-control" autocomplete="off" type="search" placeholder="Search" aria-label="Search" id="menu-search-bar" data-url-target="../search.html" readonly /></form></li>
+
+                
+                <li class="nav-item" id="theme-switcher"><button class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"></path></svg></button></li></ul></div></div></nav>
+
+    <div class="container my-4" data-id="page-body"><div data-id="declared-type-data"><div class="d-flex justify-content-between align-items-center"><h1 class="display-4 text-break" data-id="type-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal enum</span>
+<span class="refdocgen-text-primary">Keyword</span></span></samp></h1>
+
+    <button class="btn btn-sm" id="toggleAllBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path>
+        <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button>
+
+<script>
+    window.addEventListener('load', function(){
+        const toggleBtn = document.getElementById('toggleAllBtn');
+        const namespaces = Array.from(document.getElementsByClassName('multi-collapse'));
+
+        toggleBtn.addEventListener('click', () => {
+          const allShown = namespaces.every(ns => ns.classList.contains('show'));
+
+          namespaces.forEach(el => {
+            let instance = bootstrap.Collapse.getInstance(el);
+            if (!instance) {
+                // Ensure toggle: false to prevent auto-toggling on creation
+                instance = new bootstrap.Collapse(el, { toggle: false });
+            }
+
+            if (allShown) {
+              instance.hide(); // Collapse if all were shown
+            } else {
+              instance.show(); // Otherwise expand all
+            }
+          });
+        });
+    });
+</script></div>
+
+                        <h6><samp data-id="type-assembly"><a href="RefDocGen-DLL.html" class="refdocgen-link-secondary"><span class="refdocgen-text-tertiary">assembly</span>
+            <span class="refdocgen-text-secondary">RefDocGen</span></a></samp></h6>
+
+                        <h6><samp data-id="type-namespace"><a href="RefDocGen.TemplateProcessors.Shared.Tools.Keywords.CSharp.html" class="refdocgen-link-secondary text-break"><span class="refdocgen-text-tertiary">namespace</span>
+            <span class="refdocgen-text-secondary">RefDocGen.TemplateProcessors.Shared.Tools.Keywords.CSharp</span></a></samp></h6>
+
+                        
+
+                        <hr>
+
+                        <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Enum representing various C# keywords and modifiers
+            </div></div>
+
+                        
+
+                        
+
+                        
+
+                        <hr></div>
+
+                    <h2 class="display-5 mt-2">Members</h2>
+                    <div class="row"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="Abstract" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Abstract</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">0</span></span>
+
+                                                <a class="anchor-link" href="#Abstract">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-0-collapse" aria-expanded="false" aria-controls="member-0-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-0-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Async" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Async</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">1</span></span>
+
+                                                <a class="anchor-link" href="#Async">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-1-collapse" aria-expanded="false" aria-controls="member-1-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-1-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Class" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Class</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">2</span></span>
+
+                                                <a class="anchor-link" href="#Class">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-2-collapse" aria-expanded="false" aria-controls="member-2-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-2-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Const" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Const</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">3</span></span>
+
+                                                <a class="anchor-link" href="#Const">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-3-collapse" aria-expanded="false" aria-controls="member-3-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-3-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Default" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Default</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">4</span></span>
+
+                                                <a class="anchor-link" href="#Default">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-4-collapse" aria-expanded="false" aria-controls="member-4-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-4-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Delegate" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Delegate</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">5</span></span>
+
+                                                <a class="anchor-link" href="#Delegate">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-5-collapse" aria-expanded="false" aria-controls="member-5-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-5-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Enum" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Enum</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">6</span></span>
+
+                                                <a class="anchor-link" href="#Enum">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-6-collapse" aria-expanded="false" aria-controls="member-6-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-6-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Event" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Event</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">7</span></span>
+
+                                                <a class="anchor-link" href="#Event">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-7-collapse" aria-expanded="false" aria-controls="member-7-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-7-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Explicit" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Explicit</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">8</span></span>
+
+                                                <a class="anchor-link" href="#Explicit">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-8-collapse" aria-expanded="false" aria-controls="member-8-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-8-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Implicit" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Implicit</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">9</span></span>
+
+                                                <a class="anchor-link" href="#Implicit">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-9-collapse" aria-expanded="false" aria-controls="member-9-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-9-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="In" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">In</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">10</span></span>
+
+                                                <a class="anchor-link" href="#In">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-10-collapse" aria-expanded="false" aria-controls="member-10-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-10-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Interface" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Interface</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">11</span></span>
+
+                                                <a class="anchor-link" href="#Interface">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-11-collapse" aria-expanded="false" aria-controls="member-11-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-11-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Internal" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Internal</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">12</span></span>
+
+                                                <a class="anchor-link" href="#Internal">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-12-collapse" aria-expanded="false" aria-controls="member-12-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-12-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Namespace" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Namespace</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">13</span></span>
+
+                                                <a class="anchor-link" href="#Namespace">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-13-collapse" aria-expanded="false" aria-controls="member-13-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-13-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="New" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">New</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">14</span></span>
+
+                                                <a class="anchor-link" href="#New">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-14-collapse" aria-expanded="false" aria-controls="member-14-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-14-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Null" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Null</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">15</span></span>
+
+                                                <a class="anchor-link" href="#Null">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-15-collapse" aria-expanded="false" aria-controls="member-15-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-15-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Object" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Object</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">16</span></span>
+
+                                                <a class="anchor-link" href="#Object">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-16-collapse" aria-expanded="false" aria-controls="member-16-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-16-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Operator" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Operator</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">17</span></span>
+
+                                                <a class="anchor-link" href="#Operator">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-17-collapse" aria-expanded="false" aria-controls="member-17-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-17-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Out" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Out</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">18</span></span>
+
+                                                <a class="anchor-link" href="#Out">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-18-collapse" aria-expanded="false" aria-controls="member-18-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-18-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Override" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Override</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">19</span></span>
+
+                                                <a class="anchor-link" href="#Override">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-19-collapse" aria-expanded="false" aria-controls="member-19-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-19-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Params" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Params</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">20</span></span>
+
+                                                <a class="anchor-link" href="#Params">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-20-collapse" aria-expanded="false" aria-controls="member-20-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-20-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Private" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Private</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">21</span></span>
+
+                                                <a class="anchor-link" href="#Private">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-21-collapse" aria-expanded="false" aria-controls="member-21-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-21-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Protected" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Protected</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">22</span></span>
+
+                                                <a class="anchor-link" href="#Protected">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-22-collapse" aria-expanded="false" aria-controls="member-22-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-22-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Public" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Public</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">23</span></span>
+
+                                                <a class="anchor-link" href="#Public">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-23-collapse" aria-expanded="false" aria-controls="member-23-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-23-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Readonly" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Readonly</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">24</span></span>
+
+                                                <a class="anchor-link" href="#Readonly">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-24-collapse" aria-expanded="false" aria-controls="member-24-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-24-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Record" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Record</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">25</span></span>
+
+                                                <a class="anchor-link" href="#Record">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-25-collapse" aria-expanded="false" aria-controls="member-25-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-25-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Ref" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Ref</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">26</span></span>
+
+                                                <a class="anchor-link" href="#Ref">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-26-collapse" aria-expanded="false" aria-controls="member-26-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-26-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Required" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Required</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">27</span></span>
+
+                                                <a class="anchor-link" href="#Required">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-27-collapse" aria-expanded="false" aria-controls="member-27-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-27-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Sealed" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Sealed</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">28</span></span>
+
+                                                <a class="anchor-link" href="#Sealed">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-28-collapse" aria-expanded="false" aria-controls="member-28-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-28-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Static" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Static</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">29</span></span>
+
+                                                <a class="anchor-link" href="#Static">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-29-collapse" aria-expanded="false" aria-controls="member-29-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-29-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Struct" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Struct</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">30</span></span>
+
+                                                <a class="anchor-link" href="#Struct">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-30-collapse" aria-expanded="false" aria-controls="member-30-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-30-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="This" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">This</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">31</span></span>
+
+                                                <a class="anchor-link" href="#This">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-31-collapse" aria-expanded="false" aria-controls="member-31-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-31-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Virtual" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Virtual</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">32</span></span>
+
+                                                <a class="anchor-link" href="#Virtual">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-32-collapse" aria-expanded="false" aria-controls="member-32-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-32-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Void" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Void</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">33</span></span>
+
+                                                <a class="anchor-link" href="#Void">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-33-collapse" aria-expanded="false" aria-controls="member-33-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-33-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="Where" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">Where</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">34</span></span>
+
+                                                <a class="anchor-link" href="#Where">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-34-collapse" aria-expanded="false" aria-controls="member-34-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-34-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="PrivateProtected" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">PrivateProtected</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">35</span></span>
+
+                                                <a class="anchor-link" href="#PrivateProtected">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-35-collapse" aria-expanded="false" aria-controls="member-35-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-35-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ProtectedInternal" data-id="enum-member"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-primary">ProtectedInternal</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">36</span></span>
+
+                                                <a class="anchor-link" href="#ProtectedInternal">#</a></samp></h6>
+
+                                        <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#member-36-collapse" aria-expanded="false" aria-controls="member-36-collapse" style="visibility: hidden;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                                    <div class="collapse show multi-collapse" id="member-36-collapse">
+
+                                        
+
+                                        
+
+                                        
+
+                                        <div class="mt-1"></div></div></div></div></div></div><nav class="navbar fixed-bottom menu-bg"><div class="container"><div class="dropup"><button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">v-private</button>
+            <div id="current-version">v-private</div>
+            <div id="version-list">[&quot;v-private&quot;]</div>
+            <ul class="dropdown-menu" id="version-selector" data-id="version-selector"></ul></div></div></nav><script src="../Static/bootstrap-5.3.5-dist.bundle.min.js"></script>
+
+    
+    <script src="../Static/script.js"></script></body></html>

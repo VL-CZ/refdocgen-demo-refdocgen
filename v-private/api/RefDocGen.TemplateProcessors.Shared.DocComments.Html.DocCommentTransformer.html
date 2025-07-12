@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RefDocGen documentation</title>
+
+    <script>
+
+        // use IIFE in order to avoid polluting global context with functions & variables
+        // https://developer.mozilla.org/en-US/docs/Glossary/IIFE
+        (function() {
+            const isLocalFile = location.protocol === "file:";
+            const defaultTheme = "dark";
+            const defaultLang = "csharp-lang";
+
+            if(isLocalFile){
+                const urlParams = new URLSearchParams(window.location.search);
+
+                let redirect = false;
+
+                // set 'theme' URL param if not found
+                if(!urlParams.has("theme")){
+                    urlParams.set("theme", defaultTheme);
+                    redirect = true;
+                }
+
+                // set 'lang' URL param if not found
+                if(!urlParams.has("lang")){
+                    urlParams.set("lang", defaultLang);
+                    redirect = true;
+                }
+
+                // redirect, if some of the URL parameters are missing
+                if(redirect){
+                    const newUrl = new URL(window.location.href);
+                    newUrl.search = urlParams.toString();
+
+                    window.location.href = newUrl;
+                }
+                else {
+                    document.documentElement.setAttribute("data-bs-theme", urlParams.get("theme")); // set the 'data-bs-theme' attribute
+                    document.documentElement.setAttribute("data-language", urlParams.get("lang")); // set the 'data-language' attribute
+                }
+            }
+            else { // no local file -> use localStorage
+                if (!localStorage.getItem("refdocgen-theme")) {
+                    localStorage.setItem("refdocgen-theme", defaultTheme);
+                }
+
+                if (!localStorage.getItem("refdocgen-language")) {
+                    localStorage.setItem("refdocgen-language", defaultLang);
+                }
+
+                document.documentElement.setAttribute("data-bs-theme", localStorage.getItem("refdocgen-theme")); // set the 'data-bs-theme' attribute
+                document.documentElement.setAttribute("data-language", localStorage.getItem("refdocgen-language")); // set the 'data-language' attribute
+            }
+        })();
+    </script>
+
+    
+    <link href="../Static/styles.css" rel="stylesheet" /><style>html[data-language="csharp-lang"] [data-language="csharp-lang"] { display: inline !important; }
+</style></head>
+
+<body><nav class="navbar navbar-expand-lg sticky-top menu-bg"><div class="container"><a class="navbar-brand" href="../index.html">RefDocGen</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup"><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../api/index.html">API</a></li></ul>
+            <ul class="navbar-nav ms-auto"><li class="nav-item d-flex align-items-center"><form class="me-2 mb-2 mb-lg-0"><select class="form-select" id="language-selector" aria-label="language"><option class="lang-option" value="csharp-lang">C#</option></select></form></li>
+
+                
+                <li class="nav-item d-flex align-items-center"><form role="search" class="me-2"><input class="form-control" autocomplete="off" type="search" placeholder="Search" aria-label="Search" id="menu-search-bar" data-url-target="../search.html" readonly /></form></li>
+
+                
+                <li class="nav-item" id="theme-switcher"><button class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"></path></svg></button></li></ul></div></div></nav>
+
+    <div class="container my-4" data-id="page-body"><div data-id="declared-type-data"><div class="d-flex justify-content-between align-items-center"><h1 class="display-4 text-break" data-id="type-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal class</span>
+<span class="refdocgen-text-primary">DocCommentTransformer</span></span></samp></h1>
+
+    <button class="btn btn-sm" id="toggleAllBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path>
+        <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button>
+
+<script>
+    window.addEventListener('load', function(){
+        const toggleBtn = document.getElementById('toggleAllBtn');
+        const namespaces = Array.from(document.getElementsByClassName('multi-collapse'));
+
+        toggleBtn.addEventListener('click', () => {
+          const allShown = namespaces.every(ns => ns.classList.contains('show'));
+
+          namespaces.forEach(el => {
+            let instance = bootstrap.Collapse.getInstance(el);
+            if (!instance) {
+                // Ensure toggle: false to prevent auto-toggling on creation
+                instance = new bootstrap.Collapse(el, { toggle: false });
+            }
+
+            if (allShown) {
+              instance.hide(); // Collapse if all were shown
+            } else {
+              instance.show(); // Otherwise expand all
+            }
+          });
+        });
+    });
+</script></div>
+
+                        
+
+                        <h6><samp data-id="type-assembly"><a href="RefDocGen-DLL.html" class="refdocgen-link-secondary"><span class="refdocgen-text-tertiary">assembly</span>
+            <span class="refdocgen-text-secondary">RefDocGen</span></a></samp></h6>
+
+                        <h6><samp data-id="type-namespace"><a href="RefDocGen.TemplateProcessors.Shared.DocComments.Html.html" class="refdocgen-link-secondary text-break"><span class="refdocgen-text-tertiary">namespace</span>
+            <span class="refdocgen-text-secondary">RefDocGen.TemplateProcessors.Shared.DocComments.Html</span></a></samp></h6>
+
+                        <div data-id="base-type"><i>Base type:&nbsp;</i>
+        <samp class="refdocgen-text-secondary text-break"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.object" class="refdocgen-link-secondary">object</a></span></span></samp></div>
+
+                        <div data-id="implemented-interfaces" class="text-break"><i>Implements:&nbsp;</i>
+        <samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentTransformer.html" class="refdocgen-link-secondary">IDocCommentTransformer</a></span></span></samp></div>
+
+                        
+
+                        <hr>
+
+                        
+                        <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Class responsible for transforming the XML doc comments into HTML.
+            </div></div><hr>
+
+                        
+
+                        
+
+                        
+                        
+
+                        
+
+                        </div><h2 class="display-5 mt-2">Constructors</h2>
+<div class="row" data-id="constructors-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id=".ctor(RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal</span>
+<span class="refdocgen-text-primary">DocCommentTransformer</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html" class="refdocgen-link-secondary">IDocCommentHtmlConfiguration</a></span><span>&#xA0;htmlConfiguration</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#.ctor(RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#ctor-0-collapse" aria-expanded="false" aria-controls="ctor-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="ctor-0-collapse"><div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Initializes a new instance of <a class="refdocgen-see-cref" href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.DocCommentTransformer.html">DocCommentTransformer</a> class.
+            </div></div>
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html" class="refdocgen-link-secondary">IDocCommentHtmlConfiguration</a></span><span>&#xA0;htmlConfiguration</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"></div></div></div></div>
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id=".ctor(RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration,RefDocGen.CodeElements.TypeRegistry.ITypeRegistry)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal</span>
+<span class="refdocgen-text-primary">DocCommentTransformer</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html" class="refdocgen-link-secondary">IDocCommentHtmlConfiguration</a></span><span>&#xA0;htmlConfiguration</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.ITypeRegistry.html" class="refdocgen-link-secondary">ITypeRegistry</a></span><span>&#xA0;typeRegistry</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#.ctor(RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration,RefDocGen.CodeElements.TypeRegistry.ITypeRegistry)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#ctor-1-collapse" aria-expanded="false" aria-controls="ctor-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="ctor-1-collapse"><div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Initializes a new instance of <a class="refdocgen-see-cref" href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.DocCommentTransformer.html">DocCommentTransformer</a> class.
+            </div></div>
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html" class="refdocgen-link-secondary">IDocCommentHtmlConfiguration</a></span><span>&#xA0;htmlConfiguration</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>
+            
+            <div>
+            Configuration for transforming the XML elements into HTML.
+            </div>
+        
+            </div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.ITypeRegistry.html" class="refdocgen-link-secondary">ITypeRegistry</a></span><span>&#xA0;typeRegistry</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>
+            
+            
+            <div>
+            A registry of the declared types.
+            </div>
+            <div>
+            Note: The type registry is needed for resolving <code class="refdocgen-inline-code">cref</code> attributes.
+            </div>
+        
+        
+            </div></div></div></div></div>
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div><h2 class="display-5 mt-2">Fields</h2>
+<div class="row" data-id="fields-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="div" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private const</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">div</span>
+
+<span> = </span>
+    <span class="refdocgen-text-green">&quot;div&quot;</span></span>
+
+                            <a class="anchor-link" href="#div">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-0-collapse" aria-expanded="false" aria-controls="field-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-0-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            <code class="refdocgen-inline-code">div</code> element name.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="docCommentParentElements" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string[]</a></span>
+
+<span class="refdocgen-text-primary">docCommentParentElements</span>
+
+</span>
+
+                            <a class="anchor-link" href="#docCommentParentElements">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-1-collapse" aria-expanded="false" aria-controls="field-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-1-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            An array of parent XML doc comment elements.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="htmlConfiguration" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentHtmlConfiguration.html" class="refdocgen-link-secondary">IDocCommentHtmlConfiguration</a></span>
+
+<span class="refdocgen-text-primary">htmlConfiguration</span>
+
+</span>
+
+                            <a class="anchor-link" href="#htmlConfiguration">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-2-collapse" aria-expanded="false" aria-controls="field-2-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-2-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Configuration for transforming the XML elements into HTML.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="typeRegistry" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.ITypeRegistry.html" class="refdocgen-link-secondary">ITypeRegistry</a></span>
+
+<span class="refdocgen-text-primary">typeRegistry</span>
+
+</span>
+
+                            <a class="anchor-link" href="#typeRegistry">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-3-collapse" aria-expanded="false" aria-controls="field-3-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-3-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            A registry of the declared types.
+            </div></div>
+
+                    
+
+                    <div class="mt-3" data-id="remarks-section"><div class="lead">Remarks</div>
+        <div class="text-body-secondary fst-italic" data-id="remarks-doc"><div>
+            Note: The type registry is needed for resolving <code class="refdocgen-inline-code">cref</code> attributes.
+            </div></div></div>
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="typeUrlResolver" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.Tools.TypeUrlResolver.html" class="refdocgen-link-secondary">TypeUrlResolver</a></span>
+
+<span class="refdocgen-text-primary">typeUrlResolver</span>
+
+</span>
+
+                            <a class="anchor-link" href="#typeUrlResolver">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-4-collapse" aria-expanded="false" aria-controls="field-4-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-4-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Resolver of the individual type's documentation pages.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="visitedLists" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private readonly</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.collections.generic.stack-1" class="refdocgen-link-secondary">Stack</a></span><span class="text-body-secondary">&lt;</span><span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.ListType.html" class="refdocgen-link-secondary">ListType</a></span><span class="text-body-secondary">&gt;</span>
+
+<span class="refdocgen-text-primary">visitedLists</span>
+
+</span>
+
+                            <a class="anchor-link" href="#visitedLists">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#field-5-collapse" aria-expanded="false" aria-controls="field-5-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="field-5-collapse">
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Stack of visited &lt;list&gt; elements.
+            </div></div>
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div><h2 class="display-5 mt-2">Properties</h2>
+<div class="row" data-id="properties-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="TypeRegistry" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.CodeElements.TypeRegistry.ITypeRegistry.html" class="refdocgen-link-secondary">ITypeRegistry</a></span>
+
+<span class="refdocgen-text-primary">TypeRegistry</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span class="refdocgen-text-tertiary"> set<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#TypeRegistry">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-0-collapse" aria-expanded="false" aria-controls="property-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-0-collapse">
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentTransformer.html#TypeRegistry" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentTransformer.TypeRegistry</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            A registry of the declared types.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    <div class="mt-3" data-id="remarks-section"><div class="lead">Remarks</div>
+        <div class="text-body-secondary fst-italic" data-id="remarks-doc"><div>
+            Note: The type registry is needed for resolving <code class="refdocgen-inline-code">cref</code> attributes.
+            </div></div></div>
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TypeUrlResolver" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.Tools.TypeUrlResolver.html" class="refdocgen-link-secondary">TypeUrlResolver</a></span>
+
+<span class="refdocgen-text-primary">TypeUrlResolver</span>
+
+<span> { </span><span class="refdocgen-text-tertiary"> get<span class="text-body">; </span></span><span class="refdocgen-text-tertiary"> set<span class="text-body">; </span></span><span> }</span>
+
+</span>
+
+                            <a class="anchor-link" href="#TypeUrlResolver">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#property-1-collapse" aria-expanded="false" aria-controls="property-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="property-1-collapse">
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Resolver of the individual type's documentation pages.
+            </div></div>
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div><h2 class="display-5 mt-2">Methods</h2>
+<div class="row" data-id="methods-section"><div class="col-md-12"><div class="border px-2 py-1 mb-2" id="AddTextNodeTo(System.String,System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">AddTextNodeTo</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;text</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;target</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#AddTextNodeTo(System.String,System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-0-collapse" aria-expanded="false" aria-controls="method-0-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-0-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Adds text to <code class="refdocgen-paramref">target</code> node.
+            <div class="refdocgen-paragraph">
+            If the <code class="refdocgen-paramref">target</code> isn't an empty element, the nodes are copied to its innermost empty descendant.
+            </div>
+            <div class="refdocgen-paragraph">
+            Note: <code class="refdocgen-paramref">target</code> must have exactly one empty descendant, otherwise an exception is thrown.
+            </div>
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;text</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The text to add.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;target</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The target <a class="refdocgen-see-cref" href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement">System.Xml.Linq.XElement</a> to which the child nodes will be copied.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>A copy of <code class="refdocgen-paramref">target</code> element, containing the <code class="refdocgen-paramref">text</code>.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="CopyChildNodes(System.Xml.Linq.XElement,System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">CopyChildNodes</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;source</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;target</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#CopyChildNodes(System.Xml.Linq.XElement,System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-1-collapse" aria-expanded="false" aria-controls="method-1-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-1-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Copies child nodes from <code class="refdocgen-paramref">source</code> to <code class="refdocgen-paramref">target</code>.
+            <div class="refdocgen-paragraph">
+            If the <code class="refdocgen-paramref">target</code> isn't an empty element, the nodes are copied to its innermost empty descendant.
+            </div>
+            <div class="refdocgen-paragraph">
+            Note: <code class="refdocgen-paramref">target</code> must have exactly one empty descendant, otherwise an exception is thrown.
+            </div>
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;source</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>
+            The source <a class="refdocgen-see-cref" href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement">System.Xml.Linq.XElement</a> whose child nodes will be copied.
+            </div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;target</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>
+            The target <a class="refdocgen-see-cref" href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement">System.Xml.Linq.XElement</a> to which the child nodes will be copied.
+            </div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>
+            A copy of <code class="refdocgen-paramref">target</code> element, containing the child nodes of <code class="refdocgen-paramref">source</code>.
+            </div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="CopyChildNodesAndAttribute(System.Xml.Linq.XElement,System.Xml.Linq.XElement,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">CopyChildNodesAndAttribute</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;source</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;target</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;attributeName</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#CopyChildNodesAndAttribute(System.Xml.Linq.XElement,System.Xml.Linq.XElement,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-2-collapse" aria-expanded="false" aria-controls="method-2-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-2-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Copies child nodes and the selected attribute from <code class="refdocgen-paramref">source</code> to <code class="refdocgen-paramref">target</code>.
+            If the source has no child nodes, the attribute text is copied there.
+            <div class="refdocgen-paragraph">
+            If the <code class="refdocgen-paramref">target</code> isn't an empty element, the nodes are copied to its innermost empty descendant.
+            </div>
+            <div class="refdocgen-paragraph">
+            Note: <code class="refdocgen-paramref">target</code> must have exactly one empty descendant, otherwise an exception is thrown.
+            </div>
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;source</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>
+            The source <a class="refdocgen-see-cref" href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement">System.Xml.Linq.XElement</a> whose child nodes will be copied.
+            </div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;target</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>
+            The target <a class="refdocgen-see-cref" href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement">System.Xml.Linq.XElement</a> to which the child nodes will be copied.
+            </div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;attributeName</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Name of the attribute that will be copied.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>
+            A copy of <code class="refdocgen-paramref">target</code> element, containing the child nodes of <code class="refdocgen-paramref">source</code>.
+            </div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="GetSingleEmptyDescendantOrSelf(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">internal static</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">GetSingleEmptyDescendantOrSelf</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#GetSingleEmptyDescendantOrSelf(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-3-collapse" aria-expanded="false" aria-controls="method-3-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-3-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Gets descendant-or-self node that is empty (i.e. has no children).
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Element, where to search for the nodes.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>Descendant-or-self node that is empty.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    <div class="mt-3"><div class="lead">Exceptions</div>
+        <div class="mx-3" data-id="exception-section"><div data-id="exception-data"><samp data-id="exception-type" class="text-break"><span class="refdocgen-text-secondary"><a href="./RefDocGen.Tools.Exceptions.InvalidDocCommentHtmlConfigurationException.html" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">InvalidDocCommentHtmlConfigurationException</span></a></span></samp>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="exception-doc"><div>
+            Thrown if there's no such node or more that 2 of them.
+            </div></div></div></div></div>
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="MarkListAsVisited(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">MarkListAsVisited</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;listElement</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#MarkListAsVisited(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-4-collapse" aria-expanded="false" aria-controls="method-4-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-4-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Marks the list element as visited.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;listElement</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The &lt;list&gt; element.</div></div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ToHtmlOneLineString(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">ToHtmlOneLineString</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docComment</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#ToHtmlOneLineString(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-5-collapse" aria-expanded="false" aria-controls="method-5-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-5-collapse">
+
+                    
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentTransformer.html#ToHtmlOneLineString(System.Xml.Linq.XElement)" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentTransformer.ToHtmlOneLineString</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Converts the <code class="refdocgen-paramref">docComment</code> <a class="refdocgen-see-cref" href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement">System.Xml.Linq.XElement</a> to its HTML one-line string representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docComment</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The element to be converted to its HTML string.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>Raw HTML one-line string representation of the <code class="refdocgen-paramref">docComment</code>. <code class="refdocgen-inline-code">null</code> if the <code class="refdocgen-paramref">docComment</code> is empty.</div></div></div></div>
+
+                    
+                    <div class="mt-3" data-id="remarks-section"><div class="lead">Remarks</div>
+        <div class="text-body-secondary fst-italic" data-id="remarks-doc"><div>
+            All elements that cause a line break (such as <code class="refdocgen-inline-code">div</code> and <code class="refdocgen-inline-code">br</code>) are removed from the documentation. <br />
+            All links are replaced by highlighted text.
+            </div></div></div>
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="ToHtmlString(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">public</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span>
+
+<span class="refdocgen-text-primary">ToHtmlString</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docComment</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#ToHtmlString(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-6-collapse" aria-expanded="false" aria-controls="method-6-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-6-collapse">
+
+                    
+
+                    
+
+                    
+
+                    <div class="refdocgen-text-tertiary fst-italic ms-3 text-break" data-id="member-implements">
+                Implements
+                <span class="refdocgen-text-secondary"><a href="./RefDocGen.TemplateProcessors.Shared.DocComments.Html.IDocCommentTransformer.html#ToHtmlString(System.Xml.Linq.XElement)" class="refdocgen-link-secondary"><span class="not-visible" data-language="csharp-lang">IDocCommentTransformer.ToHtmlString</span></a></span></div><div class="mb-2"></div>
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Converts the <code class="refdocgen-paramref">docComment</code> <a class="refdocgen-see-cref" href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement">System.Xml.Linq.XElement</a> to its HTML string representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;docComment</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The element to be converted to its HTML string.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>Raw HTML string representation of the <code class="refdocgen-paramref">docComment</code>. <code class="refdocgen-inline-code">null</code> if the <code class="refdocgen-paramref">docComment</code> is empty.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformAnyCrefElement(System.Xml.Linq.XElement,System.Xml.Linq.XElement,System.Xml.Linq.XElement,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformAnyCrefElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;htmlTemplateIfFound</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;htmlTemplateIfNotFound</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;crefValue</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformAnyCrefElement(System.Xml.Linq.XElement,System.Xml.Linq.XElement,System.Xml.Linq.XElement,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-7-collapse" aria-expanded="false" aria-controls="method-7-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-7-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms any element with <code class="refdocgen-inline-code">cref</code> attribute to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The element to transform.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;htmlTemplateIfFound</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The HTML template used for transformation if the cref target is found.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;htmlTemplateIfNotFound</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The HTML template used for transformation if the cref target is NOT found.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;crefValue</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Value of the <code class="refdocgen-inline-code">cref</code> attribute.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>
+            The HTML representation of the provided element.
+            <div class="refdocgen-paragraph">
+            The resulting HTMl depends also on the fact whether the referenced object is found.
+            </div>
+            </div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformCodeBlockElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformCodeBlockElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformCodeBlockElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-8-collapse" aria-expanded="false" aria-controls="method-8-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-8-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;code&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;code&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;code&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformDescriptionElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformDescriptionElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformDescriptionElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-9-collapse" aria-expanded="false" aria-controls="method-9-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-9-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;description&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;description&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;description&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformExampleElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformExampleElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformExampleElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-10-collapse" aria-expanded="false" aria-controls="method-10-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-10-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;example&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;example&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;example&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformInlineCodeElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformInlineCodeElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformInlineCodeElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-11-collapse" aria-expanded="false" aria-controls="method-11-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-11-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;c&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;c&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;c&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformListElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformListElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformListElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-12-collapse" aria-expanded="false" aria-controls="method-12-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-12-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;list&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;list&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;list&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformListHeaderElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformListHeaderElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformListHeaderElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-13-collapse" aria-expanded="false" aria-controls="method-13-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-13-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;listheader&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;listheader&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;listheader&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformListItemElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformListItemElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformListItemElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-14-collapse" aria-expanded="false" aria-controls="method-14-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-14-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;item&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;item&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;item&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformParagraphElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformParagraphElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformParagraphElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-15-collapse" aria-expanded="false" aria-controls="method-15-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-15-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;para&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;para&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;para&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformParamRefElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformParamRefElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformParamRefElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-16-collapse" aria-expanded="false" aria-controls="method-16-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-16-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;paramref&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;paramref&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;paramref&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformSeeAlsoCrefElement(System.Xml.Linq.XElement,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformSeeAlsoCrefElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;crefValue</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformSeeAlsoCrefElement(System.Xml.Linq.XElement,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-17-collapse" aria-expanded="false" aria-controls="method-17-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-17-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;seealso cref="..."&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;seealso&gt;</code> element to transform.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;crefValue</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Value of the <code class="refdocgen-inline-code">cref</code> attribute.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>
+            The HTML representation of the <code class="refdocgen-inline-code">&lt;seealso cref="..."&gt;</code> element.
+            <div class="refdocgen-paragraph">
+            If the referenced object is not found, the HTML representation of the not found <code class="refdocgen-inline-code">cref</code> element is returned.
+            </div>
+            </div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformSeeAlsoElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformSeeAlsoElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformSeeAlsoElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-18-collapse" aria-expanded="false" aria-controls="method-18-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-18-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms any <code class="refdocgen-inline-code">&lt;seealso&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;seealso&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;seealso&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformSeeAlsoHrefElement(System.Xml.Linq.XElement,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformSeeAlsoHrefElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;hrefValue</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformSeeAlsoHrefElement(System.Xml.Linq.XElement,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-19-collapse" aria-expanded="false" aria-controls="method-19-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-19-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;seealso href="..."&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;seealso&gt;</code> element to transform.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;hrefValue</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Value of the <code class="refdocgen-inline-code">href</code> attribute.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;seealso href="..."&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformSeeCrefElement(System.Xml.Linq.XElement,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformSeeCrefElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;crefValue</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformSeeCrefElement(System.Xml.Linq.XElement,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-20-collapse" aria-expanded="false" aria-controls="method-20-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-20-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;see cref="..."&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;see&gt;</code> element to transform.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;crefValue</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Value of the <code class="refdocgen-inline-code">cref</code> attribute.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;see cref="..."&gt;</code> element.
+            <div class="refdocgen-paragraph">
+            If the referenced object is not found, the HTML representation of the not found <code class="refdocgen-inline-code">cref</code> element is returned.
+            </div>
+            </div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformSeeElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformSeeElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformSeeElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-21-collapse" aria-expanded="false" aria-controls="method-21-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-21-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms any <code class="refdocgen-inline-code">&lt;see&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;see&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;see&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformSeeHrefElement(System.Xml.Linq.XElement,System.String)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformSeeHrefElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>, </span>
+            <wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;hrefValue</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformSeeHrefElement(System.Xml.Linq.XElement,System.String)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-22-collapse" aria-expanded="false" aria-controls="method-22-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-22-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;see href="..."&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;see&gt;</code> element to transform.</div></div></div><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.string" class="refdocgen-link-secondary">string</a></span><span>&#xA0;hrefValue</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>Value of the <code class="refdocgen-inline-code">href</code> attribute.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;see href="..."&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformSeeLangwordElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformSeeLangwordElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformSeeLangwordElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-23-collapse" aria-expanded="false" aria-controls="method-23-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-23-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;see langword="..."&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;see&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;see langword="..."&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformTermElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformTermElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformTermElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-24-collapse" aria-expanded="false" aria-controls="method-24-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-24-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;term&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;term&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;term&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformToHtml(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">private</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.void" class="refdocgen-link-secondary">void</a></span>
+
+<span class="refdocgen-text-primary">TransformToHtml</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformToHtml(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-25-collapse" aria-expanded="false" aria-controls="method-25-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-25-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-paramref">element</code> to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The element to transform to HTML.</div></div></div></div></div>
+
+                    
+                    <div class="mt-3" data-id="remarks-section"><div class="lead">Remarks</div>
+        <div class="text-body-secondary fst-italic" data-id="remarks-doc"><div>
+            The transformation is done in-place, therefore the caller should pass a copy of the element as a parameter.
+            </div></div></div>
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div><div class="border px-2 py-1 mb-2" id="TransformTypeParamRefElement(System.Xml.Linq.XElement)" data-id="member-data"><div class="d-flex justify-content-between align-items-center"><h6 class="mb-0 text-break" data-id="member-declaration"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-tertiary">protected virtual</span>
+
+<span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span>
+
+<span class="refdocgen-text-primary">TransformTypeParamRefElement</span><span>(</span><wbr><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span><span>)</span></span>
+
+                            <a class="anchor-link" href="#TransformTypeParamRefElement(System.Xml.Linq.XElement)">#</a></samp></h6>
+
+                    <button class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#method-26-collapse" aria-expanded="false" aria-controls="method-26-collapse"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"></path></svg></button></div>
+
+                <div class="collapse show multi-collapse" id="method-26-collapse">
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="text-body-secondary fst-italic mb-0" data-id="summary-doc"><div>
+            Transforms the <code class="refdocgen-inline-code">&lt;paramref&gt;</code> element to its HTML representation.
+            </div></div>
+
+                    
+
+                    <div class="mt-3"><div class="lead">Parameters</div>
+        <div class="mx-3" data-id="parameters-section"><div data-id="parameter-data">
+
+                    <div data-id="parameter-declaration" class="text-break"><samp><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span><span>&#xA0;element</span></span></samp></div>
+
+                    <div class="text-body-secondary fst-italic mb-2" data-id="parameter-doc"><div>The <code class="refdocgen-inline-code">&lt;paramref&gt;</code> element to transform.</div></div></div></div></div><div class="mt-3"><div class="lead">Returns</div>
+    <div class="mx-3" data-id="returns-section"><samp data-id="return-type-name"><span class="not-visible" data-language="csharp-lang"><span class="refdocgen-text-secondary"><a href="https://learn.microsoft.com/dotnet/api/system.xml.linq.xelement" class="refdocgen-link-secondary">XElement</a></span></span></samp>
+        <div class="text-body-secondary fst-italic" data-id="returns-doc"><div>The HTML representation of the <code class="refdocgen-inline-code">&lt;paramref&gt;</code> element.</div></div></div></div>
+
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    <div class="mt-1"></div></div></div></div></div></div><nav class="navbar fixed-bottom menu-bg"><div class="container"><div class="dropup"><button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">v-private</button>
+            <div id="current-version">v-private</div>
+            <div id="version-list">[&quot;v-private&quot;]</div>
+            <ul class="dropdown-menu" id="version-selector" data-id="version-selector"></ul></div></div></nav><script src="../Static/bootstrap-5.3.5-dist.bundle.min.js"></script>
+
+    
+    <script src="../Static/script.js"></script></body></html>
